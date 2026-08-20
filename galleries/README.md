@@ -24,7 +24,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 05 | [`05-international-text`](./05-international-text/) | RTL, CJK 세로쓰기, 결합 문자, 이모지를 `fillText()` 와 비교 |
 | 06 | [`06-image-export`](./06-image-export/) | `toBlob()` 으로 카드 이미지 만들기, 픽셀 비율과 폰트 로딩 |
 | 07 | [`07-webgl-texture`](./07-webgl-texture/) | `texElementImage2D()` 로 HTML 을 WebGL2 텍스처로 |
-| 08 | `08-offscreen-worker` | `captureElementImage()` 로 얻은 `ElementImage` 를 워커로 넘기기 |
+| 08 | [`08-offscreen-worker`](./08-offscreen-worker/) | `captureElementImage()` 로 얻은 `ElementImage` 를 워커로 넘기기 |
 | 09 | `09-security-limits` | 무엇이 그려지지 않는지 직접 확인하기 |
 | 10 | `10-accessible-chart` | 도형은 캔버스로, 라벨은 HTML 로 만든 접근성 있는 차트 |
 
