@@ -1,0 +1,87 @@
+#stage {
+  background: var(--surface);
+}
+
+/* canvas 자식으로 붙는 카드. 화면에 직접 나오지 않지만 레이아웃은 된다. */
+.tile {
+  width: 132px;
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+}
+
+.tile .label {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+}
+
+.tile .value {
+  margin: 0.15rem 0 0;
+  font-size: 1.45rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+fieldset label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.4rem 0;
+  font-size: 0.88rem;
+}
+
+input[type='range'] {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.metrics dt {
+  color: var(--muted);
+}
+
+.metrics dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.log {
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
