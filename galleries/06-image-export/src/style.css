@@ -1,0 +1,137 @@
+.previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+figure {
+  margin: 0;
+  flex: 1 1 440px;
+}
+
+figcaption {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* 보이는 크기는 CSS 가 정한다. width/height 속성은 백킹 스토어 해상도다. */
+#stage,
+#legacy {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+}
+
+/* 내보낼 카드. 1200×630 은 OG 이미지 표준 크기다. */
+#card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1200px;
+  height: 630px;
+  padding: 90px 100px;
+  color: #f8fafc;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+}
+
+#card[data-theme='ocean'] {
+  background: linear-gradient(135deg, #0c4a6e, #1e40af 55%, #4c1d95);
+}
+
+#card[data-theme='sunset'] {
+  background: linear-gradient(135deg, #7c2d12, #b91c1c 50%, #be185d);
+}
+
+#card[data-theme='forest'] {
+  background: linear-gradient(135deg, #14532d, #166534 55%, #0f766e);
+}
+
+#card[data-theme='mono'] {
+  background: linear-gradient(135deg, #111827, #374151 60%, #111827);
+}
+
+#card .eyebrow {
+  margin: 0 0 28px;
+  color: rgb(248 250 252 / 72%);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+#card h2 {
+  margin: 0 0 24px;
+  font-size: 82px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+#card .subtitle {
+  margin: 0;
+  color: rgb(248 250 252 / 82%);
+  font-size: 34px;
+  line-height: 1.45;
+}
+
+#card .author {
+  margin: 48px 0 0;
+  color: rgb(248 250 252 / 62%);
+  font-size: 28px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+fieldset label {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.45rem 0;
+  font-size: 0.88rem;
+}
+
+fieldset label:has(input[type='checkbox']) {
+  display: flex;
+  gap: 0.5rem;
+}
+
+fieldset input[type='text'],
+fieldset select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.status {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
