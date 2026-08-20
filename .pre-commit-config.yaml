@@ -1,0 +1,57 @@
+# prek 로 실행한다. 설치: mise run setup
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=800]
+
+  # 마크다운 하드랩을 실제로 되돌리는 훅. proseWrap:never 는 .prettierrc.json 에 있다.
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.9.6
+    hooks:
+      - id: prettier
+        types_or: [markdown, html, css, javascript, json, yaml]
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.23.2
+    hooks:
+      - id: markdownlint-cli2
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: check-hard-wrap
+        name: 마크다운 하드랩 검사
+        entry: node scripts/check-hard-wrap.mjs
+        language: system
+        types: [markdown]
+
+      - id: check-galleries
+        name: 갤러리 구조 검사
+        entry: node scripts/check-galleries.mjs
+        language: system
+        pass_filenames: false
+        files: '^galleries/'
+
+      - id: check-commit-msg
+        name: 커밋 메시지 형식 검사
+        entry: node scripts/check-commit-msg.mjs
+        language: system
+        stages: [commit-msg]
