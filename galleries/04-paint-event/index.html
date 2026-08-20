@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>04. paint 이벤트 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>04. paint 이벤트</h1>
+      <p class="lede">
+        카드 여러 장이 제각각 다른 주기로 바뀐다. 전부 다시 그리는 것과
+        <code>changedElements</code> 에 든 것만 다시 그리는 것을 나란히 비교한다.
+      </p>
+
+      <canvas id="stage" width="620" height="200"></canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>다시 그리는 방법</legend>
+          <label><input type="radio" name="mode" value="full" checked /> 전부 다시 그리기</label>
+          <label><input type="radio" name="mode" value="partial" /> 바뀐 것만 다시 그리기</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>카드 수</legend>
+          <label>
+            <input type="range" id="count" min="2" max="24" value="8" />
+            <output for="count"></output>장
+          </label>
+          <label><input type="checkbox" id="running" checked /> 카운터 돌리기</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+            <dt>이번에 그린 카드</dt>
+            <dd id="m-drawn">0</dd>
+            <dt>평균 그리기 시간</dt>
+            <dd id="m-time">0.00 ms</dd>
+            <dt>누적 그린 카드</dt>
+            <dd id="m-total">0</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="log" id="changed">changedElements: —</p>
+
+      <p class="note">
+        전부 다시 그리기는 카드가 늘어날수록 매 프레임 비용이 같이 늘어난다. 바뀐 것만 그리면 카드
+        수와 거의 무관하다. 카드 수 슬라이더를 끝까지 올려 놓고 두 방법을 번갈아 보자.
+      </p>
+
+      <p><a href="../05-international-text/">다음 예제: 05. 다국어 텍스트 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

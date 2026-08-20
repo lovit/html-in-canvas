@@ -20,7 +20,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 01 | [`01-hello-world`](./01-hello-world/) | `layoutSubtree`, `drawElementImage()`, `paint` 이벤트의 최소 조합 |
 | 02 | [`02-draw-geometry`](./02-draw-geometry/) | 위치와 크기 인자, 소스 사각형, 캔버스 변환 행렬과의 관계 |
 | 03 | [`03-interactive-form`](./03-interactive-form/) | 반환된 `DOMMatrix` 로 클릭과 포커스, 접근성 살리기 |
-| 04 | `04-paint-event` | `requestPaint()` 와 `changedElements` 로 바뀐 것만 다시 그리기 |
+| 04 | [`04-paint-event`](./04-paint-event/) | `requestPaint()` 와 `changedElements` 로 바뀐 것만 다시 그리기 |
 | 05 | `05-international-text` | RTL, CJK 세로쓰기, 결합 문자, 이모지를 `fillText()` 와 비교 |
 | 06 | `06-image-export` | `toBlob()` 으로 카드 이미지 만들기, 픽셀 비율과 폰트 로딩 |
 | 07 | `07-webgl-texture` | `texElementImage2D()` 로 HTML 을 WebGL2 텍스처로 |
