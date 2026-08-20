@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>08. OffscreenCanvas 워커 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>08. OffscreenCanvas 워커</h1>
+      <p class="lede">
+        카드를 <code>ElementImage</code> 로 떠서 워커에 넘긴다. 합성은 워커가 하고, 메인 스레드가
+        멈춰도 화면은 계속 돈다.
+      </p>
+
+      <!-- 이 캔버스의 제어권은 워커에 넘어간다. 그래도 자식은 여기 남아 있고 paint 도 여기로 온다. -->
+      <canvas id="stage" width="640" height="400">
+        <div class="card" data-tone="a">
+          <p class="eyebrow">CARD 01</p>
+          <h2 class="headline">스냅샷</h2>
+          <p class="body">captureElementImage 로 이 카드를 한 장 뜬다.</p>
+        </div>
+        <div class="card" data-tone="b">
+          <p class="eyebrow">CARD 02</p>
+          <h2 class="headline">전송</h2>
+          <p class="body">ElementImage 는 transferable 이다. 복사가 아니라 소유권이 넘어간다.</p>
+        </div>
+        <div class="card" data-tone="c">
+          <p class="eyebrow">CARD 03</p>
+          <h2 class="headline">합성</h2>
+          <p class="body">워커의 OffscreenCanvas 가 받아서 그린다.</p>
+        </div>
+        <div class="card" data-tone="d">
+          <p class="eyebrow">CARD 04</p>
+          <h2 class="headline">독립</h2>
+          <p class="body">메인 스레드가 멈춰도 이쪽은 멈추지 않는다.</p>
+        </div>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>메인 스레드</legend>
+          <dl class="metrics">
+            <dt>메인 프레임</dt>
+            <dd id="main-frames">0</dd>
+            <dt>보낸 스냅샷</dt>
+            <dd id="sent">0</dd>
+          </dl>
+          <button type="button" id="block">메인 스레드 2초 막기</button>
+          <p class="hint">
+            누르면 위의 "메인 프레임" 숫자가 멈춘다. 캔버스 안에 워커가 그리는 숫자는 계속 올라간다.
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>카드</legend>
+          <label
+            >흔들림 <input type="range" id="sway" min="0" max="100" value="45" /><output
+              for="sway"
+            ></output
+          ></label>
+          <button type="button" id="swap">카드 내용 바꾸기</button>
+          <p class="status" id="status">워커를 시작하는 중…</p>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        캔버스 오른쪽 아래에 워커가 직접 그린 프레임 수가 있다. 메인 스레드를 막는 동안 DOM 으로
+        표시한 숫자는 얼어붙지만 캔버스 안 숫자는 계속 올라간다. 그 차이가 이 예제의 요점이다.
+      </p>
+
+      <p><a href="../09-security-limits/">다음 예제: 09. 무엇이 그려지지 않나 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
