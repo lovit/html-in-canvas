@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>03. 인터랙티브 폼 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>03. 인터랙티브 폼</h1>
+      <p class="lede">
+        캔버스에 그린 폼을 실제로 쓸 수 있게 만든다. <code>drawElementImage()</code> 가 돌려주는
+        <code>DOMMatrix</code> 를 엘리먼트의 <code>transform</code> 에 되먹이는 것이 전부다.
+      </p>
+
+      <canvas id="stage" width="620" height="380">
+        <form id="panel" novalidate>
+          <h2>배송 정보</h2>
+          <label for="name">받는 분</label>
+          <input id="name" name="name" type="text" value="김한글" autocomplete="off" />
+          <label for="city">도시</label>
+          <select id="city" name="city">
+            <option>서울</option>
+            <option>부산</option>
+            <option>제주</option>
+          </select>
+          <label class="check"
+            ><input id="fast" name="fast" type="checkbox" checked /> 빠른 배송</label
+          >
+          <button id="submit" type="button">주문하기</button>
+        </form>
+      </canvas>
+
+      <div class="controls">
+        <label class="switch">
+          <input type="checkbox" id="sync" checked />
+          위치 동기화 (반환된 DOMMatrix 를 transform 에 적용)
+        </label>
+        <label
+          >기울기 <input type="range" id="rot" min="-25" max="25" value="-8" /><output
+            for="rot"
+          ></output
+        ></label>
+        <label
+          >확대 <input type="range" id="scl" min="60" max="130" value="100" /><output
+            for="scl"
+          ></output
+        ></label>
+      </div>
+
+      <p class="log" id="log">폼을 클릭하거나 Tab 키로 이동해 보세요.</p>
+
+      <p class="note">
+        동기화를 끄면 그림은 그대로인데 클릭이 엉뚱한 곳에서 먹는다. 그림은 캔버스가 그리고 클릭은
+        DOM 이 받기 때문이다. 둘을 맞춰 주는 것이 반환된 행렬이다.
+      </p>
+
+      <p><a href="../04-paint-event/">다음 예제: 04. paint 이벤트 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
