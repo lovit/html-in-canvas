@@ -35,11 +35,11 @@ open -na "$CHROME_APP" --args \
 
 [tasks.fmt]
 description = "prettier 로 전체 포맷팅 (마크다운 하드랩도 여기서 풀린다)"
-run = "npx --yes prettier@3.6 --write ."
+run = "npx --yes prettier@3.9 --write ."
 
 [tasks."lint:fmt"]
 description = "포맷팅 검사"
-run = "npx --yes prettier@3.6 --check ."
+run = "npx --yes prettier@3.9 --check ."
 
 [tasks."lint:md"]
 description = "마크다운 린트"
