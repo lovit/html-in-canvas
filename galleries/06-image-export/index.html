@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>06. 이미지 내보내기 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>06. 이미지 내보내기</h1>
+      <p class="lede">
+        HTML 로 만든 카드를 1200×630 PNG 로 내보낸다. 소셜 미리보기에 쓰는 OG 이미지를 만드는 흔한
+        작업이다.
+      </p>
+
+      <div class="previews">
+        <figure>
+          <figcaption><code>drawElementImage()</code> 미리보기</figcaption>
+          <!-- CSS 로 보이는 크기를 고정하고, 백킹 스토어 해상도만 배율로 키운다. -->
+          <canvas id="stage" width="1200" height="630">
+            <div id="card" data-theme="ocean">
+              <p class="eyebrow" id="v-eyebrow">HTML IN CANVAS</p>
+              <h2 id="v-title">캔버스 안에서 자란 카드</h2>
+              <p class="subtitle" id="v-subtitle">레이아웃은 CSS 가 하고, 저장은 캔버스가 한다</p>
+              <p class="author" id="v-author">@lovit</p>
+            </div>
+          </canvas>
+        </figure>
+
+        <figure id="fo-figure" hidden>
+          <figcaption><code>foreignObject</code> 방식 (비교용)</figcaption>
+          <canvas id="legacy" width="1200" height="630"></canvas>
+        </figure>
+      </div>
+
+      <div class="controls">
+        <fieldset>
+          <legend>내용</legend>
+          <label>윗줄 <input type="text" id="eyebrow" value="HTML IN CANVAS" /></label>
+          <label>제목 <input type="text" id="title" value="캔버스 안에서 자란 카드" /></label>
+          <label
+            >부제
+            <input type="text" id="subtitle" value="레이아웃은 CSS 가 하고, 저장은 캔버스가 한다"
+          /></label>
+          <label>작성자 <input type="text" id="author" value="@lovit" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>모양</legend>
+          <label>
+            테마
+            <select id="theme">
+              <option value="ocean">바다</option>
+              <option value="sunset">노을</option>
+              <option value="forest">숲</option>
+              <option value="mono">흑백</option>
+            </select>
+          </label>
+          <label>
+            배율
+            <select id="scale">
+              <option value="1">1배 — 1200×630</option>
+              <option value="2">2배 — 2400×1260</option>
+              <option value="3">3배 — 3600×1890</option>
+            </select>
+          </label>
+          <label><input type="checkbox" id="show-legacy" /> foreignObject 방식과 비교</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>내보내기</legend>
+          <div class="buttons">
+            <button type="button" id="save-png">PNG 로 저장</button>
+            <button type="button" id="save-jpeg">JPEG 로 저장</button>
+          </div>
+          <p class="status" id="status">기기 픽셀 비율을 확인하는 중…</p>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        배율을 바꿔도 화면에 보이는 크기는 그대로다. 바뀌는 것은 캔버스가 실제로 들고 있는 픽셀
+        수다. 저장 버튼을 누르면 그 픽셀이 그대로 파일이 된다.
+      </p>
+
+      <p><a href="../07-webgl-texture/">다음 예제: 07. WebGL 텍스처 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
