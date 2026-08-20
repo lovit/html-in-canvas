@@ -1,0 +1,144 @@
+.chart-figure {
+  margin: 0 0 1.5rem;
+}
+
+#chart-caption {
+  margin-bottom: 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+#chart {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  aspect-ratio: 720 / 420;
+  background: var(--surface);
+}
+
+/* canvas 자식들. 화면에 직접 나오지 않고 drawElementImage 로만 그려진다. */
+#chart .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2px;
+  width: 100px;
+  height: 344px;
+  padding: 0 0 6px;
+  border: 0;
+  border-radius: 8px;
+  /* 배경이 투명해서 그려도 막대를 가리지 않는다. 보이는 것은 글자와 포커스 표시뿐이다. */
+  background: transparent;
+  color: #cbd5e1;
+  font: inherit;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+  cursor: pointer;
+}
+
+#chart .column .name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+#chart .column .value {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: #94a3b8;
+}
+
+#chart .column:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: -2px;
+}
+
+#chart .column:hover .name {
+  color: #ffffff;
+}
+
+#legend {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 220px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgb(15 23 42 / 65%);
+  color: #cbd5e1;
+  font-family: system-ui, sans-serif;
+  font-size: 13px;
+}
+
+#legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #38bdf8;
+}
+
+#legend .dot.faded {
+  background: #475569;
+}
+
+#tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 168px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #0f172a;
+  box-shadow: 0 10px 24px rgb(2 6 23 / 55%);
+  color: #e2e8f0;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+  font-size: 13px;
+}
+
+#tooltip strong {
+  font-size: 15px;
+}
+
+#tooltip #tooltip-delta {
+  color: #7dd3fc;
+}
+
+.controls {
+  align-items: center;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.table-heading {
+  margin-top: 2.5rem;
+  font-size: 1.05rem;
+}
+
+#data-table {
+  width: 100%;
+  max-width: 30rem;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+#data-table caption {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+#data-table th,
+#data-table td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+#data-table td:not(:first-child) {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>10. 접근성 있는 차트 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>10. 접근성 있는 차트</h1>
+      <p class="lede">
+        막대는 캔버스가 그리고, 라벨과 범례와 툴팁은 HTML 이 만든다. Tab 키로 막대를 하나씩 짚어 볼
+        수 있고 스크린리더가 값을 읽는다.
+      </p>
+
+      <figure class="chart-figure">
+        <figcaption id="chart-caption">도시별 주간 이용자 수 (단위: 천 명)</figcaption>
+        <canvas id="chart" width="720" height="420" role="group" aria-labelledby="chart-caption">
+          <div id="legend">
+            <span class="dot"></span>
+            <span>이번 주</span>
+            <span class="dot faded"></span>
+            <span>지난 주</span>
+          </div>
+          <div id="tooltip" role="tooltip">
+            <strong id="tooltip-name">—</strong>
+            <span id="tooltip-value">—</span>
+            <span id="tooltip-delta">—</span>
+          </div>
+        </canvas>
+      </figure>
+
+      <div class="controls">
+        <button type="button" id="shuffle">새 데이터 불러오기</button>
+        <span class="status" id="status">Tab 키를 눌러 막대를 하나씩 짚어 보세요.</span>
+      </div>
+
+      <h2 class="table-heading">같은 데이터의 표 형태</h2>
+      <table id="data-table">
+        <caption>
+          캔버스를 볼 수 없는 환경을 위한 대체 표현입니다.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">도시</th>
+            <th scope="col">이번 주</th>
+            <th scope="col">지난 주</th>
+          </tr>
+        </thead>
+        <tbody id="data-rows"></tbody>
+      </table>
+
+      <p class="note">
+        캔버스에 그려진 막대는 그림일 뿐이다. Tab 으로 잡히는 것은 캔버스 자식으로 놓인 진짜
+        <code>&lt;button&gt;</code> 이고, 그 버튼은 배경이 투명해서 화면에는 포커스 표시와 글자만
+        나온다.
+      </p>
+
+      <p><a href="../">갤러리 목록으로 돌아가기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

@@ -26,9 +26,9 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 07 | [`07-webgl-texture`](./07-webgl-texture/) | `texElementImage2D()` 로 HTML 을 WebGL2 텍스처로 |
 | 08 | [`08-offscreen-worker`](./08-offscreen-worker/) | `captureElementImage()` 로 얻은 `ElementImage` 를 워커로 넘기기 |
 | 09 | [`09-security-limits`](./09-security-limits/) | 무엇이 그려지지 않는지 직접 확인하기 |
-| 10 | `10-accessible-chart` | 도형은 캔버스로, 라벨은 HTML 로 만든 접근성 있는 차트 |
+| 10 | [`10-accessible-chart`](./10-accessible-chart/) | 도형은 캔버스로, 라벨은 HTML 로 만든 접근성 있는 차트 |
 
-아직 만들어지지 않은 예제는 링크가 없다. 예제가 추가되면 이 표에 링크가 붙는다. 예제 하나가 이슈 하나이므로 [열린 이슈 목록](https://github.com/lovit/html-in-canvas/issues)에서 진행 상황을 볼 수 있다.
+번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.
 
 ## 예제 공통 규칙
 
