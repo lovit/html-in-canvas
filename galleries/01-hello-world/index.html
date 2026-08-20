@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>01. Hello World — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>01. Hello World</h1>
+      <p class="lede">
+        같은 내용을 두 가지 방법으로 캔버스에 그린다. 왼쪽은 HTML 을 그대로 그렸고, 오른쪽은 캔버스
+        텍스트 API 로 직접 찍었다.
+      </p>
+
+      <div class="stage-row">
+        <figure>
+          <figcaption><code>drawElementImage()</code></figcaption>
+          <!-- 그릴 대상은 canvas 의 직계 자식이어야 한다. 손자는 그릴 수 없다. -->
+          <canvas id="stage" width="440" height="250">
+            <div id="card">
+              <p class="badge">HTML in Canvas</p>
+              <h2 id="card-title">안녕하세요 👋</h2>
+              <p id="card-body">
+                이 카드는 &lt;canvas&gt; 안에 들어 있는 평범한 div 입니다. 줄바꿈도, 이모지도,
+                그림자도 CSS 가 알아서 합니다.
+              </p>
+            </div>
+          </canvas>
+        </figure>
+
+        <figure>
+          <figcaption><code>fillText()</code></figcaption>
+          <canvas id="plain" width="440" height="250"></canvas>
+        </figure>
+      </div>
+
+      <div class="controls">
+        <button id="swap" type="button">카드 내용 바꾸기</button>
+        <span id="status" role="status"></span>
+      </div>
+
+      <p class="note">
+        오른쪽은 줄바꿈이 없어서 글자가 캔버스 밖으로 흘러 나간다. 줄을 접으려면 글자 폭을 재고 끊을
+        자리를 직접 찾아야 한다. 왼쪽은 그 일을 CSS 엔진이 한다.
+      </p>
+
+      <p><a href="../02-draw-geometry/">다음 예제: 02. 좌표와 변환 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
