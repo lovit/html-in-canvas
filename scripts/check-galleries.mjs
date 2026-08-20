@@ -17,6 +17,9 @@ import { fileURLToPath } from 'node:url';
 const ROOT = normalize(join(fileURLToPath(import.meta.url), '..', '..'));
 const GALLERIES = join(ROOT, 'galleries');
 const NAME_PATTERN = /^\d{2}-[a-z0-9]+(-[a-z0-9]+)*$/;
+// 앞선 참조: 아직 만들지 않은 뒤 예제를 미리 링크하는 것은 정상이다.
+// 다만 오타를 놓치지 않도록, galleries/README.md 로드맵에 있는 이름만 허용한다.
+const PLANNED_LINK = /^\.\.\/(\d{2}-[a-z0-9-]+)\/?$/;
 
 const errors = [];
 const fail = (file, message) => errors.push(`${relative(ROOT, file)}: ${message}`);
@@ -51,9 +54,30 @@ function localLinks(md) {
   return links.filter(Boolean);
 }
 
+/** galleries/README.md 로드맵에 이름이 오른 예제 목록. 아직 없어도 링크를 허용한다. */
+async function plannedNames() {
+  const tocPath = join(GALLERIES, 'README.md');
+  if (!(await exists(tocPath))) return new Set();
+  const toc = await readFile(tocPath, 'utf8');
+  const names = new Set();
+  for (const m of toc.matchAll(/`(\d{2}-[a-z0-9-]+)`/g)) names.add(m[1]);
+  for (const m of toc.matchAll(/\]\(\.\/(\d{2}-[a-z0-9-]+)\//g)) names.add(m[1]);
+  return names;
+}
+
+const PLANNED = await plannedNames();
+
+/** 아직 만들지 않은 뒤 예제를 가리키는 링크인지 판단한다. */
+function isPlannedLink(fromPath, link) {
+  const inGallery = dirname(fromPath).startsWith(GALLERIES);
+  const match = link.match(PLANNED_LINK);
+  return inGallery && match !== null && PLANNED.has(match[1]);
+}
+
 async function checkLinks(mdPath) {
   const md = await readFile(mdPath, 'utf8');
   for (const link of localLinks(md)) {
+    if (isPlannedLink(mdPath, link)) continue;
     const target = normalize(join(dirname(mdPath), link));
     if (!(await exists(target))) fail(mdPath, `깨진 링크: ${link}`);
   }
@@ -93,6 +117,7 @@ for (const name of galleryDirs) {
   if (await exists(indexPath)) {
     const html = await readFile(indexPath, 'utf8');
     for (const ref of localRefs(html)) {
+      if (isPlannedLink(indexPath, ref)) continue;
       const target = normalize(join(dir, ref));
       if (!(await exists(target))) fail(indexPath, `참조하는 파일이 없습니다: ${ref}`);
     }
