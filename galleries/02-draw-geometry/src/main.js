@@ -5,7 +5,7 @@
 //   2. 캔버스의 현재 변환 행렬은 그리기에 적용된다
 //   3. 소스 엘리먼트의 CSS transform 은 그리기에서 무시된다
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const stage = document.querySelector('#stage');
 const card = document.querySelector('#card');
@@ -65,7 +65,10 @@ function start() {
   const ctx = stage.getContext('2d');
 
   stage.layoutSubtree = true;
-  stage.addEventListener('paint', () => draw(ctx));
+  stage.addEventListener(
+    'paint',
+    guardPaint(() => draw(ctx)),
+  );
   stage.requestPaint();
 
   for (const input of Object.values(sliders)) {

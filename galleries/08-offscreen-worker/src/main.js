@@ -6,7 +6,7 @@
 // 알아 둘 제약이 하나 있다. ElementImage 는 그것을 뜬 캔버스에만 그릴 수 있다.
 // 그래서 제어권을 워커에 넘길 캔버스와 자식을 담고 있는 캔버스가 같아야 한다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const stage = document.querySelector('#stage');
 const cards = Array.from(stage.querySelectorAll('.card'));
@@ -49,12 +49,15 @@ function start() {
     status.textContent = `워커를 실행하지 못했습니다: ${event.message}`;
   });
 
-  stage.addEventListener('paint', (event) => {
-    const changed = Array.from(event.changedElements ?? []);
-    // 처음에는 changedElements 가 전부를 담고 있다. 이후에는 바뀐 카드만 온다.
-    const targets = changed.length > 0 ? changed : cards;
-    for (const card of targets) sendSnapshot(worker, card);
-  });
+  stage.addEventListener(
+    'paint',
+    guardPaint((event) => {
+      const changed = Array.from(event.changedElements ?? []);
+      // 처음에는 changedElements 가 전부를 담고 있다. 이후에는 바뀐 카드만 온다.
+      const targets = changed.length > 0 ? changed : cards;
+      for (const card of targets) sendSnapshot(worker, card);
+    }),
+  );
   stage.requestPaint();
 
   swayInput.addEventListener('input', () => {

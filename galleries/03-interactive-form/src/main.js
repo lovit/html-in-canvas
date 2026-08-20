@@ -4,7 +4,7 @@
 // 그 자리가 비어 있는 이유가 여기 있다. 그린 위치를 알려 주는 행렬을 거기에 끼우면
 // 클릭, 포커스, 스크린리더가 전부 그림을 따라온다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const stage = document.querySelector('#stage');
 const panel = document.querySelector('#panel');
@@ -25,7 +25,10 @@ function start() {
   const ctx = stage.getContext('2d');
 
   stage.layoutSubtree = true;
-  stage.addEventListener('paint', () => draw(ctx));
+  stage.addEventListener(
+    'paint',
+    guardPaint(() => draw(ctx)),
+  );
   stage.requestPaint();
 
   for (const input of [rotInput, sclInput]) {

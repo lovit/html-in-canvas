@@ -4,7 +4,7 @@
 // fillText() 로 한 번 찍는다. 글리프를 그리는 일은 어느 쪽이든 폰트가 한다.
 // 갈리는 것은 줄바꿈, 방향, 루비처럼 글자 위에 얹히는 층이다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const SPECIMEN_FONT = "17px system-ui, 'Apple SD Gothic Neo', sans-serif";
 
@@ -24,10 +24,13 @@ function drawAllWithElement() {
     const ctx = canvas.getContext('2d');
 
     canvas.layoutSubtree = true;
-    canvas.addEventListener('paint', () => {
-      ctx.reset();
-      ctx.drawElementImage(specimen, 12, 12);
-    });
+    canvas.addEventListener(
+      'paint',
+      guardPaint(() => {
+        ctx.reset();
+        ctx.drawElementImage(specimen, 12, 12);
+      }),
+    );
     canvas.requestPaint();
   }
 }

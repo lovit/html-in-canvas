@@ -95,3 +95,24 @@ export function ensureSupport({ webgl = false } = {}) {
   }
   return true;
 }
+
+/**
+ * paint 핸들러를 감싸 준다.
+ *
+ * paint 안에서 그리더라도 캔버스가 아예 렌더링되지 않는 위치에 있으면
+ * 자식의 스냅샷 기록이 없어서 InvalidStateError 가 난다.
+ * (숨긴 iframe, 화면 밖으로 밀어 둔 컨테이너 등)
+ * 그릴 수 없는 프레임은 조용히 건너뛴다. 다음 프레임에 다시 그리면 된다.
+ *
+ *   canvas.addEventListener('paint', guardPaint((event) => { ... }));
+ */
+export function guardPaint(draw) {
+  return (event) => {
+    try {
+      draw(event);
+    } catch (error) {
+      // 그릴 수 없는 상태만 넘긴다. 다른 실수는 그대로 드러나야 한다.
+      if (error.name !== 'InvalidStateError') throw error;
+    }
+  };
+}

@@ -4,7 +4,7 @@
 // "읽히면 정보가 새는 것" 을 애초에 그리지 않는다. 캔버스를 오염시키는 대신
 // 해당 부분만 빼는 쪽을 택한다. 무엇이 빠지는지 직접 부딪혀 본다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const LOCAL_BADGE = 'src/badge.svg';
 
@@ -60,11 +60,14 @@ function start() {
     mountClone(canvas, specimen);
 
     canvas.layoutSubtree = true;
-    canvas.addEventListener('paint', () => {
-      ctx.reset();
-      ctx.drawElementImage(specimen, 12, 12);
-      reportTaint(canvas);
-    });
+    canvas.addEventListener(
+      'paint',
+      guardPaint(() => {
+        ctx.reset();
+        ctx.drawElementImage(specimen, 12, 12);
+        reportTaint(canvas);
+      }),
+    );
     canvas.requestPaint();
   }
 }
