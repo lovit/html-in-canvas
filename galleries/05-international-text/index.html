@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>05. 다국어 텍스트 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>05. 다국어 텍스트</h1>
+      <p class="lede">
+        같은 문자열을 왼쪽은 HTML 로, 오른쪽은 <code>fillText()</code> 로 그렸다. 오른쪽이 못 하는
+        일이 이 API 가 대신해 주는 일이다.
+      </p>
+
+      <section class="sample" id="arabic">
+        <h2>아랍어 — RTL 과 문자 결합</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="110">
+              <div class="specimen" dir="rtl" lang="ar">
+                مرحبا بالعالم. هذا نص عربي يتم عرضه من اليمين إلى اليسار.
+              </div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="110"
+              data-text="مرحبا بالعالم. هذا نص عربي يتم عرضه من اليمين إلى اليسار."
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          아랍 문자는 앞뒤 글자에 따라 모양이 바뀌고 오른쪽에서 왼쪽으로 흐른다.
+          <code>fillText()</code> 도 글자 모양 자체는 폰트가 처리하지만, 줄이 넘칠 때 어디서 끊고
+          어느 쪽으로 이어 붙일지는 직접 정해야 한다.
+        </p>
+      </section>
+      <section class="sample" id="bidi">
+        <h2>히브리어와 라틴 문자 혼합 — 양방향</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="100">
+              <div class="specimen" lang="he">שלום, my name is דוד and I code.</div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="100"
+              data-text="שלום, my name is דוד and I code."
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          한 줄 안에서 방향이 세 번 바뀐다. 브라우저는 유니코드 양방향 알고리즘으로 순서를 정한다.
+          캔버스에 직접 찍으면 글자는 나오지만, 선택 영역이나 커서 위치를 계산하려면 그 알고리즘을
+          직접 구현해야 한다.
+        </p>
+      </section>
+      <section class="sample" id="vertical">
+        <h2>한국어 세로쓰기 — writing-mode</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="230">
+              <div class="specimen" lang="ko" style="writing-mode: vertical-rl; height: 190px">
+                세로로 흐르는 글줄. 한자와 숫자 2026 이 섞여도 방향이 유지된다.
+              </div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="230"
+              data-text="세로로 흐르는 글줄. 한자와 숫자 2026 이 섞여도 방향이 유지된다."
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          캔버스 텍스트 API 에는 세로쓰기가 없다. 글자를 하나씩 떼어 y 좌표를 늘려 가며 찍는
+          방법뿐인데, 그러면 숫자와 라틴 문자를 눕히는 규칙(<code>text-orientation</code>)을 직접
+          구현해야 한다.
+        </p>
+      </section>
+      <section class="sample" id="ruby">
+        <h2>일본어 루비 — ruby 요소</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="110">
+              <div class="specimen" lang="ja">
+                <ruby>東京<rt>とうきょう</rt></ruby
+                >から<ruby>大阪<rt>おおさか</rt></ruby
+                >まで
+              </div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="110"
+              data-text="東京から大阪まで  (루비 없음)"
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          루비는 본문 글자 위에 작은 글자를 얹는다. 캔버스로 하려면 본문 글자 폭을 재고, 루비 글자를
+          그 위 중앙에 배치하고, 루비가 더 길면 본문 자간을 벌려야 한다.
+        </p>
+      </section>
+      <section class="sample" id="thai">
+        <h2>태국어 — 결합 문자와 줄바꿈</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="110">
+              <div class="specimen" lang="th">
+                ภาษาไทยไม่มีช่องว่างระหว่างคำ จึงต้องใช้พจนานุกรมในการตัดคำ
+              </div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="110"
+              data-text="ภาษาไทยไม่มีช่องว่างระหว่างคำ จึงต้องใช้พจนานุกรมในการตัดคำ"
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          태국어는 단어 사이에 공백이 없다. 어디서 줄을 끊을지 알려면 사전이 필요하다. 브라우저는 그
+          사전을 들고 있고, 캔버스 텍스트 API 는 들고 있지 않다.
+        </p>
+      </section>
+      <section class="sample" id="emoji">
+        <h2>이모지 — ZWJ 시퀀스와 피부색 변형자</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="110">
+              <div class="specimen">👨‍👩‍👧‍👦 가족 · 👋🏽 손 인사 · 🏳️‍🌈 깃발 · 🧑🏿‍💻 개발자</div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="110"
+              data-text="👨‍👩‍👧‍👦 가족 · 👋🏽 손 인사 · 🏳️‍🌈 깃발 · 🧑🏿‍💻 개발자"
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          한 이모지가 코드 포인트 여러 개로 이루어진다. 글자 수를 세거나 잘라 쓸 때
+          <code>string.length</code> 를 믿으면 가족 이모지가 낱개로 쪼개진다. 그리기는 둘 다 되지만,
+          폭 계산과 자르기는 이야기가 다르다.
+        </p>
+      </section>
+      <section class="sample" id="wrap">
+        <h2>긴 문단 — 자동 줄바꿈과 폰트 폴백</h2>
+        <div class="pair">
+          <figure>
+            <figcaption><code>drawElementImage()</code></figcaption>
+            <canvas class="html-canvas" width="420" height="140">
+              <div class="specimen" lang="ko">
+                이 문단은 한글과 Latin script 와 숫자 12,345 가 섞여 있고, 캔버스 폭보다 길어서
+                저절로 접혀야 한다. 한국어는 단어 사이 공백이 드물기 때문에 어절 단위로 끊어야
+                자연스럽다.
+              </div>
+            </canvas>
+          </figure>
+          <figure>
+            <figcaption><code>fillText()</code></figcaption>
+            <canvas
+              class="text-canvas"
+              width="420"
+              height="140"
+              data-text="이 문단은 한글과 Latin script 와 숫자 12,345 가 섞여 있고, 캔버스 폭보다 길어서 저절로 접혀야 한다."
+            ></canvas>
+          </figure>
+        </div>
+        <p class="why">
+          줄바꿈, 줄 간격, 마지막 줄 정렬, 그리고 한글에 없는 글리프를 라틴 폰트에서 가져오는
+          폴백까지 전부 CSS 엔진이 한다. <code>fillText()</code> 로 하려면
+          <code>measureText()</code> 를 반복 호출하는 루프를 직접 짜야 한다.
+        </p>
+      </section>
+      <p class="note">
+        오른쪽 캔버스도 글자 자체는 대부분 제대로 나온다. 폰트가 글리프를 그리는 일은 어느 쪽이든
+        같기 때문이다. 갈리는 것은 그 위의 층이다. 줄을 어디서 끊을지, 어느 방향으로 흐를지, 무엇을
+        무엇 위에 얹을지는 레이아웃 엔진의 일이고 캔버스 텍스트 API 에는 그 층이 없다.
+      </p>
+
+      <p><a href="../06-image-export/">다음 예제: 06. 이미지 내보내기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
