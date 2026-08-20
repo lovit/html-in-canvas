@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>02. 좌표와 변환 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>02. 좌표와 변환</h1>
+      <p class="lede">
+        <code>drawElementImage()</code> 는 <code>drawImage()</code> 와 같은 인자 규칙을 따른다.
+        슬라이더를 움직여 네 가지 형태가 무엇을 하는지 본다.
+      </p>
+
+      <div class="panels">
+        <figure>
+          <figcaption>소스 엘리먼트 (원래 크기)</figcaption>
+          <div class="source-box">
+            <div id="source-mount"></div>
+            <div id="source-rect" hidden></div>
+          </div>
+        </figure>
+
+        <figure>
+          <figcaption>캔버스에 그린 결과</figcaption>
+          <canvas id="stage" width="460" height="320">
+            <div id="card">
+              <p class="badge">SOURCE</p>
+              <h2>좌표계 연습</h2>
+              <p>이 카드를 어디에, 얼마나 크게, 어느 부분만 그릴지 정한다.</p>
+            </div>
+          </canvas>
+        </figure>
+      </div>
+
+      <p class="call">호출: <code id="call">…</code></p>
+
+      <div class="controls">
+        <fieldset>
+          <legend>인자 형태</legend>
+          <label><input type="radio" name="mode" value="3" checked /> 3인자 — 위치만</label>
+          <label><input type="radio" name="mode" value="5" /> 5인자 — 위치와 크기</label>
+          <label><input type="radio" name="mode" value="7" /> 7인자 — 소스 사각형 + 위치</label>
+          <label
+            ><input type="radio" name="mode" value="9" /> 9인자 — 소스 사각형 + 위치와 크기</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>그릴 위치와 크기</legend>
+          <label
+            >dx <input type="range" id="dx" min="0" max="400" value="40" /><output for="dx"></output
+          ></label>
+          <label
+            >dy <input type="range" id="dy" min="0" max="280" value="40" /><output for="dy"></output
+          ></label>
+          <label
+            >dwidth <input type="range" id="dw" min="40" max="440" value="300" /><output
+              for="dw"
+            ></output
+          ></label>
+          <label
+            >dheight <input type="range" id="dh" min="30" max="300" value="170" /><output
+              for="dh"
+            ></output
+          ></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>잘라 쓸 소스 사각형</legend>
+          <label
+            >sx <input type="range" id="sx" min="0" max="280" value="0" /><output for="sx"></output
+          ></label>
+          <label
+            >sy <input type="range" id="sy" min="0" max="160" value="0" /><output for="sy"></output
+          ></label>
+          <label
+            >swidth <input type="range" id="sw" min="20" max="300" value="150" /><output
+              for="sw"
+            ></output
+          ></label>
+          <label
+            >sheight <input type="range" id="sh" min="20" max="200" value="90" /><output
+              for="sh"
+            ></output
+          ></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>캔버스 변환</legend>
+          <label
+            >rotate <input type="range" id="rot" min="-45" max="45" value="0" /><output
+              for="rot"
+            ></output
+          ></label>
+          <label
+            >scale <input type="range" id="scl" min="30" max="150" value="100" /><output
+              for="scl"
+            ></output
+          ></label>
+          <label><input type="checkbox" id="css-transform" /> 소스에 CSS transform 걸기</label>
+          <button type="button" id="reset">되돌리기</button>
+        </fieldset>
+      </div>
+
+      <p class="note" id="hint"></p>
+
+      <p><a href="../03-interactive-form/">다음 예제: 03. 인터랙티브 폼 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

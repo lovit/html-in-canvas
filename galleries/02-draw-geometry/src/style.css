@@ -1,0 +1,132 @@
+.panels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+figure {
+  margin: 0;
+  flex: 1 1 420px;
+}
+
+figcaption {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.source-box {
+  position: relative;
+  padding: 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* 소스 사각형을 보여 주는 점선. sx, sy, sw, sh 값에 맞춰 움직인다. */
+#source-rect {
+  position: absolute;
+  border: 2px dashed #f59e0b;
+  background: rgb(245 158 11 / 12%);
+  pointer-events: none;
+}
+
+/* canvas 자식이든 아니든 같은 스타일이 적용된다. 왼쪽은 복제본이다. */
+#card,
+.card-clone {
+  width: 300px;
+  padding: 1.1rem 1.3rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0f766e, #15803d);
+  color: #f0fdf4;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+}
+
+#card .badge,
+.card-clone .badge {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 22%);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+}
+
+#card h2,
+.card-clone h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+#card p:last-child,
+.card-clone p:last-child {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgb(240 253 244 / 88%);
+}
+
+.call {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.call code {
+  color: var(--fg);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+fieldset label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.35rem 0;
+  font-size: 0.88rem;
+}
+
+fieldset label:has(input[type='range']) {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr 2.5rem;
+}
+
+fieldset label {
+  transition: opacity 0.15s;
+}
+
+/* 지금 형태에서 쓰이지 않는 인자는 흐리게 둔다. 값은 그대로 조작할 수 있다. */
+fieldset label.dim {
+  opacity: 0.35;
+}
+
+output {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+input[type='range'] {
+  width: 100%;
+}
