@@ -1,0 +1,55 @@
+.stage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+figure {
+  margin: 0;
+  flex: 1 1 420px;
+}
+
+figcaption {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* canvas 자식이라도 스타일은 평소와 똑같이 먹는다. 이게 이 API 의 전부다. */
+#card {
+  width: 380px;
+  padding: 1.5rem 1.75rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  box-shadow: 0 12px 28px rgb(29 78 216 / 35%);
+  color: #f8fafc;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+}
+
+#card .badge {
+  display: inline-block;
+  margin: 0 0 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 20%);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+#card p:last-child {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgb(248 250 252 / 88%);
+}
+
+#status {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
