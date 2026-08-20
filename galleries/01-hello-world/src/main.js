@@ -6,7 +6,7 @@
 //   canvas.requestPaint()
 // 나머지는 비교용 fillText 코드와 화면 장식이다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const stage = document.querySelector('#stage');
 const card = document.querySelector('#card');
@@ -49,13 +49,16 @@ function start() {
   stage.layoutSubtree = true;
 
   // 첫 스냅샷이 찍히기 전에 그리면 예외가 난다. 그래서 그리기는 paint 안에서만 한다.
-  stage.addEventListener('paint', () => {
-    ctx.reset();
-    ctx.drawElementImage(card, 30, 25);
+  stage.addEventListener(
+    'paint',
+    guardPaint(() => {
+      ctx.reset();
+      ctx.drawElementImage(card, 30, 25);
 
-    paintCount += 1;
-    status.textContent = `paint 이벤트 ${paintCount}회`;
-  });
+      paintCount += 1;
+      status.textContent = `paint 이벤트 ${paintCount}회`;
+    }),
+  );
 
   // 첫 프레임을 요청한다. 이후로는 자식이 바뀔 때마다 paint 가 알아서 온다.
   stage.requestPaint();

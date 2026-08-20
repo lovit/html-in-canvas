@@ -40,6 +40,17 @@ if (!ensureSupport(canvas)) {
 
 첫 스냅샷 전에 `drawElementImage()` 를 부르면 예외가 난다. `requestPaint()` 로 시작하고 그리기는 `paint` 핸들러 안에서 한다.
 
+핸들러는 `guardPaint()` 로 감싼다. 캔버스가 아예 렌더링되지 않는 위치에 있으면 `paint` 안에서 그려도 `InvalidStateError` 가 나는데, 그릴 수 없는 프레임은 조용히 건너뛰는 것이 맞다.
+
+```js
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
+
+canvas.addEventListener(
+  'paint',
+  guardPaint(() => draw(ctx)),
+);
+```
+
 ### 위치 동기화를 빠뜨리지 않는다
 
 인터랙션이나 접근성이 필요한 엘리먼트를 그렸다면 반환된 `DOMMatrix` 를 `element.style.transform` 에 넣는다. 이걸 빼면 화면과 클릭 위치가 어긋난다.

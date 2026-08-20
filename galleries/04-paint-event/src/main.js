@@ -4,7 +4,7 @@
 // event.changedElements 에 그 자식들이 들어 있다. 캔버스를 통째로 지우고
 // 전부 다시 그리는 대신 바뀐 것만 지우고 다시 그리면 카드 수와 비용이 분리된다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const stage = document.querySelector('#stage');
 const countInput = document.querySelector('#count');
@@ -42,7 +42,10 @@ function start() {
   const ctx = stage.getContext('2d');
 
   stage.layoutSubtree = true;
-  stage.addEventListener('paint', (event) => onPaint(ctx, event));
+  stage.addEventListener(
+    'paint',
+    guardPaint((event) => onPaint(ctx, event)),
+  );
 
   countInput.addEventListener('input', () => {
     syncOutputs();

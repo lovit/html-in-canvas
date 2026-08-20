@@ -3,7 +3,7 @@
 // 지금까지는 SVG foreignObject 에 직렬화한 HTML 을 넣고 이미지로 불러오는
 // 우회로를 썼다. 이 예제는 두 방법을 나란히 놓고 무엇이 다른지 본다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const CARD_WIDTH = 1200;
 const CARD_HEIGHT = 630;
@@ -42,11 +42,14 @@ function start() {
   const ctx = stage.getContext('2d');
 
   stage.layoutSubtree = true;
-  stage.addEventListener('paint', () => {
-    ctx.reset();
-    // 카드는 1200×630 이고 캔버스 백킹 스토어는 배율만큼 크다. 그 크기에 맞춰 늘려 그린다.
-    ctx.drawElementImage(card, 0, 0, stage.width, stage.height);
-  });
+  stage.addEventListener(
+    'paint',
+    guardPaint(() => {
+      ctx.reset();
+      // 카드는 1200×630 이고 캔버스 백킹 스토어는 배율만큼 크다. 그 크기에 맞춰 늘려 그린다.
+      ctx.drawElementImage(card, 0, 0, stage.width, stage.height);
+    }),
+  );
 
   applyScale();
 

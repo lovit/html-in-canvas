@@ -4,7 +4,7 @@
 // gl.texElementImage2D() 다. 규칙은 같다. 대상은 이 캔버스의 직계 자식이어야 하고,
 // 텍스처를 새로 올리는 일은 paint 이벤트 안에서 한다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const VERTEX_SHADER = `#version 300 es
 in vec2 position;
@@ -104,7 +104,10 @@ function start() {
   canvas.layoutSubtree = true;
   // 텍스처 업로드는 반드시 paint 안에서 한다. 밖에서 부르면
   // InvalidStateError: No cached paint record for element 가 난다.
-  canvas.addEventListener('paint', () => uploadTexture(gl, texture));
+  canvas.addEventListener(
+    'paint',
+    guardPaint(() => uploadTexture(gl, texture)),
+  );
   canvas.requestPaint();
 
   canvas.addEventListener('pointermove', (event) => {

@@ -6,7 +6,7 @@
 //
 // 03 의 위치 동기화와 04 의 paint 이벤트, 02 의 좌표 감각이 전부 쓰인다.
 
-import { ensureSupport } from '../../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const CITIES = ['서울', '부산', '인천', '대구', '대전', '광주'];
 
@@ -43,7 +43,10 @@ function start() {
   renderTable();
 
   chart.layoutSubtree = true;
-  chart.addEventListener('paint', () => paint(ctx));
+  chart.addEventListener(
+    'paint',
+    guardPaint(() => paint(ctx)),
+  );
   chart.requestPaint();
 
   document.querySelector('#shuffle').addEventListener('click', shuffle);

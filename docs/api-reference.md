@@ -91,6 +91,7 @@ partial interface GPUQueue {
 - 캔버스의 현재 변환 행렬(CTM)은 적용된다. `ctx.rotate()` 후에 그리면 회전해서 그려진다
 - 넘치는 내용은 엘리먼트의 border box 로 잘린다
 - `paint` 이벤트는 자손이 조상보다 먼저 발생한다(역 트리 순서). 이벤트 안에서 만든 DOM 변경은 다음 프레임에 반영된다
+- 캔버스가 아예 렌더링되지 않는 위치에 있으면 `paint` 안에서 그려도 `InvalidStateError` 가 난다. 스냅샷 기록이 없기 때문이다. 뷰포트 밖으로 스크롤한 정도로는 생기지 않고, 숨긴 iframe 처럼 렌더링 자체가 일어나지 않을 때 생긴다. `galleries/_shared/support.js` 의 `guardPaint()` 가 이 경우를 넘긴다
 
 ## 그려지지 않는 것 (read-back-allowed rendering)
 
