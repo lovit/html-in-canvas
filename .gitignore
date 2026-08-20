@@ -1,3 +1,37 @@
+# OS / 에디터
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Node
 node_modules/
+npm-debug.log*
+.npm/
+
+# 환경변수 / 비밀값
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 실험 플래그를 켠 Chrome 전용 프로필
+.chrome-profile/
+
+# 예제 실행 산출물
+galleries/**/output/
+
+# Claude Code 로컬 전용 설정
+.claude/settings.local.json
+.claude/CLAUDE.local.md
+CLAUDE.local.md
+
+# worktree 가 혹시 저장소 안에 생길 경우 대비
+*-worktrees/
+
+# 로그
+*.log
+logs/

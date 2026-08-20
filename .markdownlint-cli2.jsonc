@@ -1,0 +1,12 @@
+{
+  // 하드랩을 금지하므로 줄 길이 규칙은 끈다. 나머지는 기본값에 가깝게 둔다.
+  "config": {
+    "MD013": false, // line-length — proseWrap:never 와 정면 충돌한다
+    "MD033": false, // inline HTML — 예제 설명에 HTML 조각을 그대로 싣는다
+    "MD024": { "siblings_only": true }, // 같은 레벨에서만 중복 제목 금지
+    "MD041": false, // 첫 줄 h1 강제 해제 (배지/공지 줄이 앞에 올 수 있다)
+    "MD029": false, // 절차 설명에서 번호가 섹션을 넘어 이어진다
+  },
+  "globs": ["**/*.md"],
+  "ignores": [".chrome-profile/**", "node_modules/**"],
+}
