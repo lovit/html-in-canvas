@@ -1,0 +1,6 @@
+{
+  "_comment": "이 파일을 .claude/settings.local.json 으로 복사해 개인 설정을 추가한다. gitignore 됨.",
+  "permissions": {
+    "allow": ["Bash(gh pr create *)", "Bash(gh pr merge *)", "Bash(git push *)"]
+  }
+}
