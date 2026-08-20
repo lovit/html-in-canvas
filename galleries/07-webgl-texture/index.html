@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>07. WebGL 텍스처 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>07. WebGL 텍스처</h1>
+      <p class="lede">
+        HTML 카드를 GPU 텍스처로 올려 프래그먼트 셰이더로 주무른다. 라이브러리 없이 raw WebGL2 만
+        쓴다.
+      </p>
+
+      <!-- 그릴 대상은 WebGL 캔버스의 직계 자식이어야 한다. 2D 캔버스와 같은 규칙이다. -->
+      <canvas id="gl" width="640" height="400">
+        <div id="card">
+          <p class="eyebrow">TEXTURE SOURCE</p>
+          <h2 id="card-title">이 카드는 텍스처다</h2>
+          <p id="card-body">
+            글자와 그라디언트와 둥근 모서리를 CSS 가 만들고, GPU 가 그것을 잡아 늘린다.
+          </p>
+          <div class="swatch" aria-hidden="true"></div>
+        </div>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>셰이더</legend>
+          <label
+            >볼록 <input type="range" id="bulge" min="0" max="100" value="45" /><output
+              for="bulge"
+            ></output
+          ></label>
+          <label
+            >물결 <input type="range" id="wave" min="0" max="100" value="30" /><output
+              for="wave"
+            ></output
+          ></label>
+          <label
+            >색수차 <input type="range" id="aberration" min="0" max="100" value="25" /><output
+              for="aberration"
+            ></output
+          ></label>
+          <button type="button" id="zero">효과 끄기</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>소스</legend>
+          <label><input type="checkbox" id="animate" checked /> 물결 애니메이션</label>
+          <button type="button" id="swap">카드 내용 바꾸기</button>
+          <p class="status" id="status">마우스를 캔버스 위에서 움직여 보세요.</p>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        효과를 전부 0 으로 내리면 화면은 원본 카드와 같아진다. 그때 색 견본 자리의 픽셀을 읽으면 CSS
+        에 적어 둔 색이 그대로 나온다. 텍스처가 원본을 왜곡 없이 담고 있다는 뜻이다.
+      </p>
+
+      <p><a href="../08-offscreen-worker/">다음 예제: 08. OffscreenCanvas 워커 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
