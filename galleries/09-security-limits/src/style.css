@@ -1,0 +1,144 @@
+.warning {
+  padding: 0.8rem 1rem;
+  border-left: 3px solid #d97706;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.case {
+  margin: 2.5rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.case h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.12rem;
+}
+
+.pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+figure {
+  margin: 0;
+  flex: 1 1 420px;
+}
+
+figcaption {
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.mount {
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* 캔버스에 그릴 표본. 왼쪽에는 이것의 복제본이 붙는다. */
+.specimen {
+  width: 396px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-family: system-ui, 'Apple SD Gothic Neo', sans-serif;
+  font-size: 15px;
+}
+
+.specimen p {
+  margin: 0 0 8px;
+}
+
+.specimen p:last-child {
+  margin-bottom: 0;
+}
+
+.specimen .cell {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  width: 150px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.specimen img {
+  border-radius: 10px;
+  background: #e2e8f0;
+}
+
+/* :visited 는 색 계열 속성만 바꿀 수 있다. 그래서 색으로 구분한다. */
+.specimen a.probe {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.specimen a.probe:visited {
+  color: #be185d;
+}
+
+.specimen .swatch-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.specimen .sys {
+  padding: 10px 12px;
+  border: 2px solid ButtonBorder;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.specimen .canvas-color {
+  background: Canvas;
+  color: CanvasText;
+}
+
+.specimen .button-color {
+  background: ButtonFace;
+  color: ButtonText;
+}
+
+.specimen .accent-color {
+  background: AccentColor;
+  color: AccentColorText;
+}
+
+.specimen .sys-text {
+  color: CanvasText;
+}
+
+.specimen textarea {
+  width: 360px;
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+  resize: none;
+}
+
+.specimen .remote-frame {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f1f5f9;
+}
+
+.verdict {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.verdict code {
+  color: var(--fg);
+}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>09. 무엇이 그려지지 않나 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>09. 무엇이 그려지지 않나</h1>
+      <p class="lede">
+        캔버스는 픽셀을 읽을 수 있다. 그래서 브라우저는 읽히면 안 되는 것을 애초에 그리지 않는다.
+        왼쪽이 실제 DOM 이고 오른쪽이 캔버스다.
+      </p>
+
+      <p class="warning" id="origin-note"></p>
+
+      <section class="case">
+        <h2>1. 같은 출처 이미지와 교차 출처 이미지</h2>
+        <div class="pair">
+          <figure>
+            <figcaption>실제 DOM</figcaption>
+            <div class="mount" data-mount="images"></div>
+          </figure>
+          <figure>
+            <figcaption>캔버스에 그린 결과</figcaption>
+            <canvas class="case-canvas" width="420" height="170" data-case="images">
+              <div class="specimen" data-specimen="images">
+                <div class="cell">
+                  <img class="local" alt="같은 출처 배지" width="72" height="72" />
+                  <span>같은 출처</span>
+                </div>
+                <div class="cell">
+                  <img class="remote" alt="교차 출처 배지" width="72" height="72" />
+                  <span>교차 출처</span>
+                </div>
+              </div>
+            </canvas>
+          </figure>
+        </div>
+        <p class="verdict" data-verdict="images"></p>
+      </section>
+
+      <section class="case">
+        <h2>2. 방문한 링크와 방문하지 않은 링크</h2>
+        <div class="pair">
+          <figure>
+            <figcaption>실제 DOM</figcaption>
+            <div class="mount" data-mount="visited"></div>
+          </figure>
+          <figure>
+            <figcaption>캔버스에 그린 결과</figcaption>
+            <canvas class="case-canvas" width="420" height="140" data-case="visited">
+              <div class="specimen" data-specimen="visited">
+                <p><a class="probe" href="./">이 페이지로 가는 링크 (방문함)</a></p>
+                <p><a class="probe" href="./?nowhere-2026">가 본 적 없는 주소</a></p>
+              </div>
+            </canvas>
+          </figure>
+        </div>
+        <p class="verdict" data-verdict="visited"></p>
+      </section>
+
+      <section class="case">
+        <h2>3. 시스템 색상</h2>
+        <div class="pair">
+          <figure>
+            <figcaption>실제 DOM</figcaption>
+            <div class="mount" data-mount="system"></div>
+          </figure>
+          <figure>
+            <figcaption>캔버스에 그린 결과</figcaption>
+            <canvas class="case-canvas" width="420" height="150" data-case="system">
+              <div class="specimen" data-specimen="system">
+                <div class="swatch-row">
+                  <span class="sys canvas-color">Canvas</span>
+                  <span class="sys button-color">ButtonFace</span>
+                  <span class="sys accent-color">AccentColor</span>
+                </div>
+                <p class="sys-text">CanvasText 로 칠한 글자</p>
+              </div>
+            </canvas>
+          </figure>
+        </div>
+        <p class="verdict" data-verdict="system"></p>
+      </section>
+
+      <section class="case">
+        <h2>4. 맞춤법 검사 밑줄</h2>
+        <div class="pair">
+          <figure>
+            <figcaption>실제 DOM</figcaption>
+            <div class="mount" data-mount="spell"></div>
+          </figure>
+          <figure>
+            <figcaption>캔버스에 그린 결과</figcaption>
+            <canvas class="case-canvas" width="420" height="150" data-case="spell">
+              <div class="specimen" data-specimen="spell">
+                <textarea spellcheck="true" rows="3" cols="30">
+tihs sentense hass mistaeks</textarea>
+              </div>
+            </canvas>
+          </figure>
+        </div>
+        <p class="verdict" data-verdict="spell"></p>
+      </section>
+
+      <section class="case">
+        <h2>5. 교차 출처 iframe</h2>
+        <div class="pair">
+          <figure>
+            <figcaption>실제 DOM</figcaption>
+            <div class="mount" data-mount="frame"></div>
+          </figure>
+          <figure>
+            <figcaption>캔버스에 그린 결과</figcaption>
+            <canvas class="case-canvas" width="420" height="190" data-case="frame">
+              <div class="specimen" data-specimen="frame">
+                <iframe
+                  class="remote-frame"
+                  title="교차 출처 문서"
+                  width="380"
+                  height="150"
+                ></iframe>
+              </div>
+            </canvas>
+          </figure>
+        </div>
+        <p class="verdict" data-verdict="frame"></p>
+      </section>
+
+      <p class="note">
+        각 칸 아래 줄은 그 캔버스에서 <code>toDataURL()</code> 을 실제로 불러 본 결과다. 이 API 는
+        위험한 내용을 그리지 않는 쪽을 택하므로, 대개 캔버스는 오염되지 않고 해당 부분만 빠진다.
+      </p>
+
+      <p><a href="../10-accessible-chart/">다음 예제: 10. 접근성 있는 차트 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
