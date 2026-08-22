@@ -11,7 +11,9 @@ import { stat, readdir } from 'node:fs/promises';
 import { extname, join, normalize, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = normalize(join(fileURLToPath(import.meta.url), '..', '..'));
+const REPO_ROOT = normalize(join(fileURLToPath(import.meta.url), '..', '..'));
+// 인자를 주면 그 디렉터리를 서비스한다. 발행 사이트(_site)를 미리 볼 때 쓴다.
+const ROOT = process.argv[2] ? normalize(join(REPO_ROOT, process.argv[2])) : REPO_ROOT;
 const PORT = Number(process.env.PORT ?? 4173);
 
 const MIME = {
@@ -95,6 +97,9 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`정적 서버: http://localhost:${PORT}/galleries/`);
+  const landing = process.argv[2] ? '' : 'galleries/';
+  console.log(
+    `정적 서버: http://localhost:${PORT}/${landing}  (${relative(REPO_ROOT, ROOT) || '.'})`,
+  );
   console.log('플래그를 켠 Chrome 으로 열려면 다른 터미널에서: mise run chrome');
 });

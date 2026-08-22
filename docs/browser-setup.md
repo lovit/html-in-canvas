@@ -41,6 +41,23 @@ google-chrome --enable-blink-features=CanvasDrawElement --user-data-dir=/tmp/can
 
 주소창에 `chrome://flags/#canvas-draw-element` 를 열고 "Enable the new drawElement API for Canvas" 를 Enabled 로 바꾼 뒤 재시작한다. 브라우저 전체에 적용되므로 평소 브라우징에도 실험 기능이 켜진다는 점만 알아 두자. Brave 는 `brave://flags/#canvas-draw-element`.
 
+## 방법 3: origin trial (발행된 사이트용)
+
+사이트를 방문하는 사람에게 플래그를 켜라고 하기는 어렵다. Chrome 의 origin trial 에 출처를 등록하면 그 출처에서는 플래그 없이 API 가 열린다.
+
+1. [Chrome Origin Trials](https://developer.chrome.com/origintrials) 에서 HTML-in-Canvas 트라이얼을 찾아 등록한다
+2. Origin 에 `https://lovit.github.io` 를 넣는다. 하위 경로 전체에 적용된다
+3. 발급된 토큰을 저장소 Settings > Secrets and variables > Actions 에 `ORIGIN_TRIAL_TOKEN` 이름으로 넣는다
+4. 다음 배포부터 모든 페이지에 아래 태그가 들어간다
+
+```html
+<meta http-equiv="origin-trial" content="발급받은 토큰" />
+```
+
+토큰은 정해진 Chrome 마일스톤까지만 유효하다. 이 트라이얼은 148 에서 시작해 154 까지 연장됐다. 만료되면 브라우저가 태그를 무시하므로 사이트가 깨지지는 않고 안내 배너가 뜨는 상태로 돌아간다.
+
+시크릿을 넣지 않아도 빌드와 배포는 그대로 된다. 그때는 방문자가 직접 플래그를 켜야 한다.
+
 ## 켜졌는지 확인하기
 
 DevTools 콘솔에 붙여 넣는다.

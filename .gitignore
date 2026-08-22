@@ -24,6 +24,9 @@ npm-debug.log*
 # 예제 실행 산출물
 galleries/**/output/
 
+# 발행 사이트 빌드 결과
+_site/
+
 # Claude Code 로컬 전용 설정
 .claude/settings.local.json
 .claude/CLAUDE.local.md

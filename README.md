@@ -37,6 +37,24 @@ Chrome 이 `http://localhost:4173/galleries/` 를 연다. 거기서 예제를 �
 | `scripts/`                          | 정적 서버와 검사 스크립트 (의존성 없음)                  |
 | `.claude/`                          | 개발 워크플로 커맨드, 리뷰 에이전트, `/humanize-ko` 스킬 |
 
+## 발행된 사이트
+
+`main` 에 푸시하면 GitHub Actions 가 사이트를 만들어 배포한다.
+
+- 사이트: <https://lovit.github.io/html-in-canvas/>
+- 랜딩 페이지에 예제 열 개가 스크린샷과 함께 나오고, 각 예제의 데모와 튜토리얼로 갈 수 있다
+
+로컬에서 같은 결과를 만들어 볼 수 있다.
+
+```bash
+mise run site         # _site/ 에 사이트를 만든다
+mise run site:serve   # 만든 사이트를 띄운다
+```
+
+빌드는 `scripts/build-site.mjs` 하나가 한다. 저장소를 읽어 랜딩 페이지를 만들고, 예제와 문서를 옮기고, 마크다운을 HTML 로 바꾼다. 의존성은 쓰지 않는다.
+
+방문자가 플래그를 켜지 않아도 예제가 돌게 하려면 origin trial 토큰이 필요하다. [브라우저 셋업](docs/browser-setup.md)의 방법 3 을 보자.
+
 ## 개발 워크플로
 
 예제 하나가 이슈 하나다.

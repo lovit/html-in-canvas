@@ -1,0 +1,251 @@
+/* 발행 사이트 공통 스타일. 예제 안쪽은 galleries/_shared/base.css 가 맡는다. */
+
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #0b57d0;
+  --surface: #f6f8fa;
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #9198a1;
+    --border: #30363d;
+    --accent: #6ea8fe;
+    --surface: #161b22;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 4rem;
+  background: var(--bg);
+  color: var(--fg);
+  font:
+    16px/1.7 system-ui,
+    -apple-system,
+    'Apple SD Gothic Neo',
+    sans-serif;
+}
+
+main {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+body.wide main {
+  max-width: 72rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-home {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.site-footer {
+  max-width: 72rem;
+  margin: 3rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+h1 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.9rem;
+}
+
+.lede {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.lede-note {
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.crumb {
+  margin: 1.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* 예제 카드 목록 */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.card-shot {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.card-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.card-body {
+  padding: 0.9rem 1.1rem 1.1rem;
+}
+
+.card-body h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.card-body h3 a {
+  text-decoration: none;
+}
+
+.card-body p {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.card-links {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.88rem;
+}
+
+ul.plain {
+  padding-left: 1.1rem;
+}
+
+/* 마크다운 렌더링 결과 */
+.markdown {
+  overflow-wrap: anywhere;
+}
+
+.markdown h1 {
+  margin-top: 2rem;
+}
+
+.markdown h2 {
+  margin-top: 2.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.35rem;
+}
+
+.markdown h3 {
+  margin-top: 1.8rem;
+  font-size: 1.1rem;
+}
+
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.markdown pre {
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.markdown code {
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  background: var(--surface);
+  font-size: 0.88em;
+}
+
+.markdown pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.markdown table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.markdown th,
+.markdown td {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.markdown thead th {
+  background: var(--surface);
+}
+
+.markdown blockquote {
+  margin: 1rem 0;
+  padding: 0.2rem 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+.markdown .raw {
+  white-space: pre-wrap;
+}

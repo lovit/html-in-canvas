@@ -1,0 +1,49 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 한 번에 하나만. 진행 중인 것을 취소하지 않고 순서대로 흘려보낸다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: mise 설치
+        uses: jdx/mise-action@v3
+        with:
+          experimental: true
+
+      - name: 사이트 빌드
+        env:
+          # 마크다운 렌더링에 GitHub API 를 쓴다.
+          GITHUB_TOKEN: ${{ github.token }}
+          # Settings > Secrets 에 ORIGIN_TRIAL_TOKEN 을 넣으면 방문자가 플래그 없이 볼 수 있다.
+          ORIGIN_TRIAL_TOKEN: ${{ secrets.ORIGIN_TRIAL_TOKEN }}
+        run: mise run site
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

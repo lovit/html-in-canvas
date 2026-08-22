@@ -8,14 +8,23 @@ import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
 const LOCAL_BADGE = 'src/badge.svg';
 
+/** 같은 내용을 다른 출처로 가리킬 수 있는 짝. 로컬 서버에서만 성립한다. */
+const LOOPBACK = { localhost: '127.0.0.1', '127.0.0.1': 'localhost' };
+
 /**
  * 외부 서버 없이 교차 출처를 만든다.
  * localhost 와 127.0.0.1 은 같은 컴퓨터를 가리키지만 브라우저에게는 다른 출처다.
+ *
+ * 발행된 사이트(lovit.github.io 등)에서는 이 수가 통하지 않는다. 같은 파일을
+ * 내어 주는 두 번째 출처가 없기 때문이다. 그럴 때는 null 을 주고 안내로 대신한다.
  */
 function crossOrigin() {
   const { protocol, hostname, port } = location;
   if (protocol !== 'http:' && protocol !== 'https:') return null;
-  const other = hostname === 'localhost' ? '127.0.0.1' : 'localhost';
+
+  const other = LOOPBACK[hostname];
+  if (!other) return null;
+
   return `${protocol}//${other}${port ? `:${port}` : ''}`;
 }
 
@@ -24,7 +33,9 @@ const originNote = document.querySelector('#origin-note');
 
 if (remote === null) {
   originNote.textContent =
-    'file:// 로 열면 교차 출처 항목을 만들 수 없습니다. mise run serve 로 띄운 뒤 http://localhost 주소로 열어 주세요.';
+    location.protocol === 'file:'
+      ? 'file:// 로 열면 교차 출처 항목을 만들 수 없습니다. mise run serve 로 띄운 뒤 http://localhost 주소로 열어 주세요.'
+      : '교차 출처 항목(1번과 5번)은 같은 파일을 내어 주는 두 번째 출처가 필요합니다. 저장소를 내려받아 mise run serve 로 띄우면 localhost 와 127.0.0.1 을 짝지어 확인할 수 있습니다. 여기서는 두 칸 모두 비어 보이는 것이 정상입니다.';
 } else {
   originNote.textContent = `교차 출처 항목은 ${remote} 에서 불러옵니다. 같은 컴퓨터지만 호스트 이름이 다르므로 브라우저에게는 다른 출처입니다.`;
   wireRemoteSources();
