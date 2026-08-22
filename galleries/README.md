@@ -36,7 +36,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | --- | --- | --- |
 | 11 | [`11-live-document-3d`](./11-live-document-3d/) | 같은 출처 iframe 을 통째로 WebGL 텍스처로. 페이지 넘김 |
 | 12 | [`12-canvas-rich-editor`](./12-canvas-rich-editor/) | contenteditable 에 실시간 효과를 입히면서 편집 유지 |
-| 13 | `13-dom-stencil` | 합성 모드로 DOM 레이아웃 자체를 마스크로 쓰기 |
+| 13 | [`13-dom-stencil`](./13-dom-stencil/) | 합성 모드로 DOM 레이아웃 자체를 마스크로 쓰기 |
 | 14 | `14-motion-recorder` | CSS 애니메이션을 WebM 영상으로 뽑기 |
 
 번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.

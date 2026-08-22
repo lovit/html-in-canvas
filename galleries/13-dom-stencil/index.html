@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>13. DOM 을 스텐실로 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>13. DOM 을 스텐실로</h1>
+      <p class="lede">
+        HTML 레이아웃 자체를 마스크로 쓴다. CSS 의 <code>background-clip: text</code> 는 글자에만
+        되지만, 이 방법은 표든 카드 격자든 아이콘이든 모양만 남기고 그 안을 다른 것으로 채운다.
+      </p>
+
+      <canvas id="stage" width="760" height="330">
+        <div class="mask" id="mask-text">
+          <p class="line-1">STENCIL</p>
+          <p class="line-2">마스크가 된 글자</p>
+        </div>
+        <div class="mask" id="mask-cards">
+          <div class="grid">
+            <span></span><span></span><span></span><span></span> <span></span><span></span
+            ><span></span><span></span> <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mask" id="mask-mixed">
+          <div class="row">
+            <svg width="88" height="88" viewBox="0 0 88 88" aria-hidden="true">
+              <circle cx="44" cy="30" r="18" fill="#000" />
+              <path d="M12 78c0-17 14-30 32-30s32 13 32 30z" fill="#000" />
+            </svg>
+            <div class="stack">
+              <span class="big">프로필</span>
+              <span class="bar"></span>
+              <span class="bar short"></span>
+            </div>
+          </div>
+        </div>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>마스크</legend>
+          <label><input type="radio" name="mask" value="mask-text" checked /> 큰 글자</label>
+          <label><input type="radio" name="mask" value="mask-cards" /> 카드 격자</label>
+          <label><input type="radio" name="mask" value="mask-mixed" /> 아이콘과 글자</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>채울 것</legend>
+          <label><input type="radio" name="fill" value="gradient" checked /> 그라디언트</label>
+          <label><input type="radio" name="fill" value="noise" /> 노이즈</label>
+          <label><input type="radio" name="fill" value="shapes" /> 움직이는 도형</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>합성 모드</legend>
+          <label><input type="radio" name="mode" value="source-in" checked /> source-in</label>
+          <label><input type="radio" name="mode" value="source-atop" /> source-atop</label>
+          <label><input type="radio" name="mode" value="destination-out" /> destination-out</label>
+          <label
+            ><input type="radio" name="mode" value="destination-over" /> destination-over</label
+          >
+          <p class="hint" id="mode-note"></p>
+        </fieldset>
+      </div>
+
+      <h2 class="compare-title">CSS 로 같은 것을 해 보면</h2>
+      <div class="compare">
+        <div class="css-side">
+          <p class="css-label"><code>background-clip: text</code></p>
+          <p class="clip-text">STENCIL</p>
+          <p class="css-note">
+            글자에는 된다. 대신 마스크가 될 수 있는 것은 글자뿐이고, 채울 것도 배경으로 표현할 수
+            있는 것에 한정된다.
+          </p>
+        </div>
+        <div class="css-side">
+          <p class="css-label">카드 격자를 CSS 로 마스크 삼으려면</p>
+          <div class="clip-fail">
+            <div class="grid small">
+              <span></span><span></span><span></span><span></span> <span></span><span></span
+              ><span></span><span></span>
+            </div>
+          </div>
+          <p class="css-note">
+            <code>mask-image</code> 로 하려면 그 격자를 SVG 나 이미지로 따로 만들어야 한다. 살아
+            있는 DOM 을 그대로 쓸 수는 없다.
+          </p>
+        </div>
+      </div>
+
+      <p class="note">
+        마스크는 알파 채널로 일한다. 배경이 불투명한 엘리먼트를 마스크로 쓰면 사각형 전체가 남는다.
+        그래서 마스크용 엘리먼트는 배경을 비우고 글자와 도형만 불투명하게 둔다.
+      </p>
+
+      <p><a href="../14-motion-recorder/">다음 예제: 14. HTML 모션그래픽 녹화기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
