@@ -249,3 +249,131 @@ ul.plain {
 .markdown .raw {
   white-space: pre-wrap;
 }
+
+/* 코드 블록 아래에 붙는 소스 링크 */
+.source-link {
+  margin: -0.6rem 0 1.4rem;
+  font-size: 0.82rem;
+}
+
+.source-link a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.source-link a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.source-link code {
+  padding: 0.05rem 0.3rem;
+  font-size: 0.95em;
+}
+
+/* 튜토리얼 끝의 소스 파일 목록 */
+.source-list {
+  margin-top: 3rem;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.source-list h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.source-list p {
+  margin: 0 0 0.8rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.source-list ul {
+  margin: 0 0 0.9rem;
+  padding-left: 1.1rem;
+}
+
+.source-list li {
+  margin: 0.15rem 0;
+  font-size: 0.92rem;
+}
+
+.source-list li span {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+/*
+ * 문법 강조 색. GitHub 렌더링 API 가 붙여 주는 Primer 클래스에 색만 입힌다.
+ * 클래스 이름은 GitHub 의 Linguist 가 정한다.
+ */
+.markdown .pl-c {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.markdown .pl-k {
+  color: #d73a49;
+}
+
+.markdown .pl-s,
+.markdown .pl-pds {
+  color: #032f62;
+}
+
+.markdown .pl-en {
+  color: #6f42c1;
+}
+
+.markdown .pl-c1,
+.markdown .pl-v {
+  color: #005cc5;
+}
+
+.markdown .pl-ent {
+  color: #22863a;
+}
+
+.markdown .pl-e {
+  color: #6f42c1;
+}
+
+.markdown .pl-smi,
+.markdown .pl-s1 {
+  color: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown .pl-c {
+    color: #8b949e;
+  }
+
+  .markdown .pl-k {
+    color: #ff7b72;
+  }
+
+  .markdown .pl-s,
+  .markdown .pl-pds {
+    color: #a5d6ff;
+  }
+
+  .markdown .pl-en {
+    color: #d2a8ff;
+  }
+
+  .markdown .pl-c1,
+  .markdown .pl-v {
+    color: #79c0ff;
+  }
+
+  .markdown .pl-ent {
+    color: #7ee787;
+  }
+
+  .markdown .pl-e {
+    color: #d2a8ff;
+  }
+}
