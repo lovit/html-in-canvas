@@ -46,14 +46,22 @@ Chrome 이 열리면 `01-hello-world/` 로 들어간다. 플래그가 꺼져 있
 stage.layoutSubtree = true;
 
 // 첫 스냅샷이 찍히기 전에 그리면 예외가 난다. 그래서 그리기는 paint 안에서만 한다.
-stage.addEventListener('paint', () => {
-  ctx.reset();
-  ctx.drawElementImage(card, 30, 25);
-});
+stage.addEventListener(
+  'paint',
+  guardPaint(() => {
+    ctx.reset();
+    ctx.drawElementImage(card, 30, 25);
+
+    paintCount += 1;
+    status.textContent = `paint 이벤트 ${paintCount}회`;
+  }),
+);
 
 // 첫 프레임을 요청한다. 이후로는 자식이 바뀔 때마다 paint 가 알아서 온다.
 stage.requestPaint();
 ```
+
+`guardPaint()` 는 저장소가 함께 쓰는 작은 도우미다. 캔버스가 화면에 아예 렌더링되지 않는 상황에서 나는 예외를 넘겨 준다. 지금은 없다고 생각하고 읽어도 된다. 무슨 예외인지는 아래 "막히는 지점" 에 적어 두었다.
 
 `layoutSubtree` 를 빠뜨리면 아무 일도 일어나지 않는다. 에러도 나지 않는다. 캔버스가 그냥 비어 있다. 이 API 로 처음 뭔가 만들 때 가장 흔하게 밟는 지점이다.
 
