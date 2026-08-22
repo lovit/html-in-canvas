@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>뒷장 — 아래에 깔린 문서</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 26px 28px;
+        background: #f5f3ff;
+        color: #1f2937;
+        font:
+          15px/1.65 'Apple SD Gothic Neo',
+          system-ui,
+          sans-serif;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 21px;
+      }
+      .kicker {
+        margin: 0 0 16px;
+        color: #6d28d9;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+      p {
+        margin: 0 0 10px;
+      }
+      blockquote {
+        margin: 14px 0;
+        padding: 10px 14px;
+        border-left: 3px solid #7c3aed;
+        background: #ede9fe;
+        font-size: 14px;
+      }
+      ul {
+        margin: 10px 0;
+        padding-left: 18px;
+        font-size: 14px;
+      }
+      li {
+        margin: 4px 0;
+      }
+      .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #7c3aed;
+        animation: pulse 1.2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 0.5;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="kicker">BACK PAGE</p>
+    <h1>넘기면 이 문서가 나옵니다</h1>
+    <p>앞장과 다른 문서입니다. 배경색도, 서체 크기도, 레이아웃도 자기 것을 씁니다.</p>
+    <blockquote>
+      두 문서 모두 같은 출처라서 캔버스에 그려집니다. 교차 출처였다면 통째로 비어 나왔을 것입니다.
+    </blockquote>
+    <ul>
+      <li>문서 안의 링크와 표도 그대로 따라온다</li>
+      <li>안쪽에서 도는 애니메이션이 바깥 <code>paint</code> 를 부른다</li>
+      <li>그래서 폴링이 필요 없다</li>
+    </ul>
+    <p><span class="dot"></span> 이 점이 깜빡이면 이 문서도 살아 있는 것입니다.</p>
+  </body>
+</html>
