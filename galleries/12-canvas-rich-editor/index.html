@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>12. 캔버스 리치텍스트 에디터 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>12. 캔버스 리치텍스트 에디터</h1>
+      <p class="lede">
+        글자에 실시간으로 효과를 입히면서 편집은 그대로 살아 있다. 지금까지는 둘 중 하나를 포기해야
+        했다.
+      </p>
+
+      <div class="toolbar">
+        <button type="button" data-command="bold"><b>B</b></button>
+        <button type="button" data-command="italic"><i>I</i></button>
+        <button type="button" data-command="underline"><u>U</u></button>
+        <span class="spacer"></span>
+        <span class="caret-note" id="caret-note">캔버스 안 글자를 눌러 커서를 놓아 보세요.</span>
+      </div>
+
+      <canvas id="stage" width="780" height="320">
+        <div id="editor" contenteditable="true" spellcheck="false">
+          <h2>여기를 고쳐 보세요</h2>
+          <p>
+            커서도 <b>서식</b>도 <i>한글 조합 입력</i>도 그대로 됩니다. 효과는 그리는 쪽에서만
+            입힙니다.
+          </p>
+        </div>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>네온 글로우</legend>
+          <label class="switch"><input type="checkbox" id="glow-on" checked /> 켜기</label>
+          <label
+            >세기 <input type="range" id="glow" min="0" max="60" value="26" /><output
+              for="glow"
+            ></output
+          ></label>
+          <label>색 <input type="color" id="glow-color" value="#38bdf8" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>외곽선</legend>
+          <label class="switch"><input type="checkbox" id="outline-on" /> 켜기</label>
+          <label
+            >두께 <input type="range" id="outline" min="1" max="8" value="3" /><output
+              for="outline"
+            ></output
+          ></label>
+          <label>색 <input type="color" id="outline-color" value="#f8fafc" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>그라디언트와 흐림</legend>
+          <label class="switch"><input type="checkbox" id="gradient-on" /> 그라디언트로 덮기</label>
+          <label
+            >흐림 <input type="range" id="blur" min="0" max="12" value="0" /><output
+              for="blur"
+            ></output
+          ></label>
+          <button type="button" id="clear">효과 모두 끄기</button>
+        </fieldset>
+      </div>
+
+      <p class="log" id="log">—</p>
+
+      <p class="note">
+        효과를 모두 끄면 캔버스 그림이 원본 DOM 과 같아진다. 효과는 그리는 쪽에서만 일어나고 편집
+        중인 문서 자체는 손대지 않기 때문이다.
+      </p>
+
+      <p><a href="../13-dom-stencil/">다음 예제: 13. DOM 을 스텐실로 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

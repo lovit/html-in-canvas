@@ -35,7 +35,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | # | 예제 | 배우는 것 |
 | --- | --- | --- |
 | 11 | [`11-live-document-3d`](./11-live-document-3d/) | 같은 출처 iframe 을 통째로 WebGL 텍스처로. 페이지 넘김 |
-| 12 | `12-canvas-rich-editor` | contenteditable 에 실시간 효과를 입히면서 편집 유지 |
+| 12 | [`12-canvas-rich-editor`](./12-canvas-rich-editor/) | contenteditable 에 실시간 효과를 입히면서 편집 유지 |
 | 13 | `13-dom-stencil` | 합성 모드로 DOM 레이아웃 자체를 마스크로 쓰기 |
 | 14 | `14-motion-recorder` | CSS 애니메이션을 WebM 영상으로 뽑기 |
 
