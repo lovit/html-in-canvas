@@ -28,6 +28,17 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 09 | [`09-security-limits`](./09-security-limits/) | 무엇이 그려지지 않는지 직접 확인하기 |
 | 10 | [`10-accessible-chart`](./10-accessible-chart/) | 도형은 캔버스로, 라벨은 HTML 로 만든 접근성 있는 차트 |
 
+## 고급편
+
+기초편에서 확인한 것들 위에 세운 예제입니다. 앞의 열 개를 먼저 보고 오는 편이 좋습니다.
+
+| # | 예제 | 배우는 것 |
+| --- | --- | --- |
+| 11 | [`11-live-document-3d`](./11-live-document-3d/) | 같은 출처 iframe 을 통째로 WebGL 텍스처로. 페이지 넘김 |
+| 12 | `12-canvas-rich-editor` | contenteditable 에 실시간 효과를 입히면서 편집 유지 |
+| 13 | `13-dom-stencil` | 합성 모드로 DOM 레이아웃 자체를 마스크로 쓰기 |
+| 14 | `14-motion-recorder` | CSS 애니메이션을 WebM 영상으로 뽑기 |
+
 번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.
 
 ## 예제 공통 규칙

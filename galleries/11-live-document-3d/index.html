@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>11. 살아 있는 문서를 3D 공간에 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>11. 살아 있는 문서를 3D 공간에</h1>
+      <p class="lede">
+        같은 출처 <code>&lt;iframe&gt;</code> 을 통째로 GPU 텍스처로 올린다. 카드 한 장이 아니라
+        문서 하나가 통째로 올라가고, 그 안에서 스크립트가 계속 돈다.
+      </p>
+
+      <!-- 그릴 대상은 여기서도 canvas 의 직계 자식이어야 한다. -->
+      <canvas id="stage" width="760" height="540">
+        <iframe
+          id="front"
+          src="src/page-front.html"
+          title="앞장 문서"
+          width="360"
+          height="480"
+        ></iframe>
+        <iframe
+          id="back"
+          src="src/page-back.html"
+          title="뒷장 문서"
+          width="360"
+          height="480"
+        ></iframe>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>페이지 넘기기</legend>
+          <label
+            >진행 <input type="range" id="progress" min="0" max="100" value="0" /><output
+              for="progress"
+            ></output
+          ></label>
+          <div class="buttons">
+            <button type="button" id="turn">넘기기</button>
+            <button type="button" id="reset">되돌리기</button>
+          </div>
+          <p class="hint">캔버스를 좌우로 끌어도 됩니다.</p>
+          <label class="switch"
+            ><input type="checkbox" id="pause-back" /> 뒷장 문서의 애니메이션 멈추기</label
+          >
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+            <dt>텍스처 업로드</dt>
+            <dd id="m-uploads">0</dd>
+            <dt>앞장 문서의 시계</dt>
+            <dd id="m-clock">—</dd>
+            <dt>changedElements</dt>
+            <dd id="m-changed">—</dd>
+          </dl>
+          <p class="hint">
+            시계는 iframe 안쪽 스크립트가 올립니다. 화면 속 종이의 숫자와 같아야 합니다.
+          </p>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        텍스처를 다시 올리라고 시키는 코드가 없습니다. 문서 안에서 숫자가 바뀌면 그것이 바깥
+        캔버스의 <code>paint</code> 를 부르고, 그 안에서 업로드가 일어납니다. 04 에서 배운
+        <code>changedElements</code> 로 바뀐 문서만 다시 올립니다.
+      </p>
+
+      <p><a href="../12-canvas-rich-editor/">다음 예제: 12. 캔버스 리치텍스트 에디터 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
