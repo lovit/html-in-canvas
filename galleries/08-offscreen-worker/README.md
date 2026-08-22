@@ -54,11 +54,15 @@ The source was captured from a different canvas.
 ### 3. 스냅샷은 paint 안에서
 
 ```js
-stage.addEventListener('paint', (event) => {
-  const changed = Array.from(event.changedElements ?? []);
-  const targets = changed.length > 0 ? changed : cards;
-  for (const card of targets) sendSnapshot(worker, card);
-});
+stage.addEventListener(
+  'paint',
+  guardPaint((event) => {
+    const changed = Array.from(event.changedElements ?? []);
+    // 처음에는 changedElements 가 전부를 담고 있다. 이후에는 바뀐 카드만 온다.
+    const targets = changed.length > 0 ? changed : cards;
+    for (const card of targets) sendSnapshot(worker, card);
+  }),
+);
 ```
 
 `captureElementImage()` 도 `paint` 안에서 불러야 한다. 밖에서 부르면 스냅샷 기록이 없다며 거부한다. 01, 07 에서 만난 규칙과 같다.

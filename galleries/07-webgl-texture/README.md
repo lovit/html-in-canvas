@@ -36,7 +36,10 @@ WebGL 캔버스라고 규칙이 달라지지 않는다. `layoutSubtree` 를 켜�
 ### 2. 업로드는 paint 안에서
 
 ```js
-canvas.addEventListener('paint', () => uploadTexture(gl, texture));
+canvas.addEventListener(
+  'paint',
+  guardPaint(() => uploadTexture(gl, texture)),
+);
 canvas.requestPaint();
 ```
 

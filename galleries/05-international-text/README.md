@@ -26,10 +26,13 @@ mise run chrome
 
 ```js
 canvas.layoutSubtree = true;
-canvas.addEventListener('paint', () => {
-  ctx.reset();
-  ctx.drawElementImage(specimen, 12, 12);
-});
+canvas.addEventListener(
+  'paint',
+  guardPaint(() => {
+    ctx.reset();
+    ctx.drawElementImage(specimen, 12, 12);
+  }),
+);
 canvas.requestPaint();
 ```
 
