@@ -1,0 +1,169 @@
+#stage {
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  aspect-ratio: 760 / 330;
+  background: #0b1220;
+}
+
+/*
+ * 마스크가 될 엘리먼트들. 배경을 비우고 글자와 도형만 불투명하게 둔다.
+ * 알파가 있는 곳만 마스크로 일하기 때문이다.
+ */
+.mask {
+  width: 700px;
+  padding: 16px 20px;
+  background: transparent;
+  color: #000;
+  font-family: 'Apple SD Gothic Neo', system-ui, sans-serif;
+}
+
+#mask-text .line-1 {
+  margin: 0;
+  font-size: 92px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+#mask-text .line-2 {
+  margin: 6px 0 0;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.grid span {
+  height: 62px;
+  border-radius: 12px;
+  background: #000;
+}
+
+.grid span:nth-child(3n) {
+  border-radius: 31px;
+}
+
+.grid span:nth-child(4n) {
+  opacity: 0.55;
+}
+
+#mask-mixed .row {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+#mask-mixed .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#mask-mixed .big {
+  font-size: 46px;
+  font-weight: 900;
+}
+
+#mask-mixed .bar {
+  width: 320px;
+  height: 18px;
+  border-radius: 9px;
+  background: #000;
+}
+
+#mask-mixed .bar.short {
+  width: 210px;
+  opacity: 0.6;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+fieldset label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.35rem 0;
+  font-size: 0.88rem;
+}
+
+.hint {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.compare-title {
+  margin-top: 2.5rem;
+  font-size: 1.05rem;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.css-side {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.css-label {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.css-note {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* CSS 로 되는 쪽 */
+.clip-text {
+  margin: 0;
+  background: linear-gradient(100deg, #f472b6, #c084fc 50%, #38bdf8);
+  background-clip: text;
+  color: transparent;
+  font-size: 54px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.clip-fail {
+  padding: 8px;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #f472b6, #c084fc 50%, #38bdf8);
+}
+
+.grid.small span {
+  height: 26px;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 82%);
+}
