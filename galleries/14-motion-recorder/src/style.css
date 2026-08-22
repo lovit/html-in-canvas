@@ -1,0 +1,220 @@
+.stage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+figure {
+  margin: 0;
+  flex: 1 1 460px;
+}
+
+figcaption {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+#stage,
+#playback {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  background: #05070d;
+}
+
+/*
+ * 녹화 대상 카드. 여기 있는 것은 전부 CSS 애니메이션이다.
+ * JavaScript 는 이 움직임에 관여하지 않는다.
+ */
+#card {
+  position: relative;
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  color: #f8fafc;
+  font-family: 'Apple SD Gothic Neo', system-ui, sans-serif;
+}
+
+#card .bg {
+  position: absolute;
+  inset: -20%;
+  background-size: 200% 200%;
+  animation: drift 9s ease-in-out infinite alternate;
+}
+
+#card[data-theme='aurora'] .bg {
+  background-image: linear-gradient(120deg, #0f172a, #1d4ed8 35%, #7c3aed 65%, #0f172a);
+}
+
+#card[data-theme='ember'] .bg {
+  background-image: linear-gradient(120deg, #1c1917, #b45309 35%, #be123c 65%, #1c1917);
+}
+
+#card[data-theme='mint'] .bg {
+  background-image: linear-gradient(120deg, #052e2b, #0f766e 35%, #22d3ee 65%, #052e2b);
+}
+
+@keyframes drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+#card .content {
+  position: relative;
+  padding: 56px 60px;
+}
+
+#card .eyebrow {
+  margin: 0 0 14px;
+  color: rgb(248 250 252 / 78%);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+#card h2 {
+  margin: 0 0 16px;
+  font-size: 46px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s both;
+}
+
+#card .subtitle {
+  margin: 0 0 22px;
+  max-width: 26ch;
+  color: rgb(248 250 252 / 82%);
+  font-size: 18px;
+  line-height: 1.5;
+  animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.26s both;
+}
+
+#card .accent {
+  display: block;
+  width: 180px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgb(248 250 252 / 90%);
+  transform-origin: left center;
+  animation: stretch 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both;
+}
+
+#card .badge {
+  position: absolute;
+  right: 46px;
+  bottom: 40px;
+  width: 78px;
+  height: 78px;
+  border: 5px solid rgb(248 250 252 / 55%);
+  border-top-color: rgb(248 250 252 / 95%);
+  border-radius: 50%;
+  animation: spin 2.4s linear infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stretch {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+fieldset label {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.45rem 0;
+  font-size: 0.88rem;
+}
+
+fieldset input[type='text'],
+fieldset select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.metrics dt {
+  color: var(--muted);
+}
+
+.metrics dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-meta {
+  margin: 0.6rem 0 0.4rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.download {
+  font-size: 0.9rem;
+}

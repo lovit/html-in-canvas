@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>14. HTML 모션그래픽 녹화기 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>14. HTML 모션그래픽 녹화기</h1>
+      <p class="lede">
+        CSS <code>@keyframes</code> 로 만든 움직임을 WebM 영상으로 뽑는다. JavaScript 애니메이션
+        루프가 없다. 타임라인은 CSS 가 들고 있다.
+      </p>
+
+      <div class="stage-row">
+        <figure>
+          <figcaption>캔버스 (녹화 대상)</figcaption>
+          <canvas id="stage" width="1280" height="720">
+            <div id="card" data-theme="aurora">
+              <div class="bg"></div>
+              <div class="content">
+                <p class="eyebrow" id="v-eyebrow">MOTION</p>
+                <h2 id="v-title">CSS 가 타임라인이다</h2>
+                <p class="subtitle" id="v-subtitle">
+                  키프레임이 곧 애니메이션이고, 캔버스는 그것을 받아 적기만 한다
+                </p>
+                <span class="accent"></span>
+              </div>
+              <div class="badge" aria-hidden="true"></div>
+            </div>
+          </canvas>
+        </figure>
+
+        <figure id="result" hidden>
+          <figcaption>녹화 결과</figcaption>
+          <video id="playback" controls playsinline></video>
+          <p class="result-meta" id="result-meta"></p>
+          <a class="download" id="download" download="motion.webm">파일 내려받기</a>
+        </figure>
+      </div>
+
+      <div class="controls">
+        <fieldset>
+          <legend>내용</legend>
+          <label>윗줄 <input type="text" id="eyebrow" value="MOTION" /></label>
+          <label>제목 <input type="text" id="title" value="CSS 가 타임라인이다" /></label>
+          <label
+            >부제
+            <input
+              type="text"
+              id="subtitle"
+              value="키프레임이 곧 애니메이션이고, 캔버스는 그것을 받아 적기만 한다"
+          /></label>
+          <label>
+            테마
+            <select id="theme">
+              <option value="aurora">오로라</option>
+              <option value="ember">잉걸</option>
+              <option value="mint">민트</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>출력</legend>
+          <label>
+            해상도
+            <select id="resolution">
+              <option value="1280x720">1280 × 720</option>
+              <option value="1920x1080">1920 × 1080</option>
+              <option value="960x540">960 × 540</option>
+            </select>
+          </label>
+          <label>
+            초당 프레임
+            <select id="fps">
+              <option value="30">30 fps</option>
+              <option value="60">60 fps</option>
+            </select>
+          </label>
+          <label>
+            길이
+            <select id="duration">
+              <option value="4">4초</option>
+              <option value="6">6초</option>
+              <option value="8">8초</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>녹화</legend>
+          <div class="buttons">
+            <button type="button" id="replay">다시 재생</button>
+            <button type="button" id="record">녹화 시작</button>
+          </div>
+          <dl class="metrics">
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+            <dt>상태</dt>
+            <dd id="m-status">대기 중</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        이 페이지에는 애니메이션을 굴리는 <code>requestAnimationFrame</code> 루프가 없다. 카드 안의
+        CSS 애니메이션이 매 프레임 <code>paint</code> 를 부르고, 그 안에서 한 번 그린다.
+        <code>captureStream()</code> 은 그렇게 갱신되는 캔버스를 그대로 영상으로 받는다.
+      </p>
+
+      <p><a href="../">갤러리 목록으로 돌아가기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
