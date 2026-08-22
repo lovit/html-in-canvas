@@ -57,7 +57,11 @@ mise run setup          # prek 훅 등록
 mise run serve          # 정적 서버 (기본 http://localhost:4173)
 mise run chrome         # 플래그를 켠 Chrome 을 전용 프로필로 실행
 mise run check          # 갤러리 구조 + 하드랩 검사 (CI 와 동일)
+mise run site           # 발행용 사이트를 _site/ 에 만든다
+mise run site:serve     # 만든 사이트를 띄워 확인한다
 ```
+
+`main` 에 푸시하면 `.github/workflows/pages.yml` 이 사이트를 <https://lovit.github.io/html-in-canvas/> 로 배포한다. 예제 파일은 손대지 않고 그대로 옮기므로, 로컬에서 동작하면 사이트에서도 동작한다.
 
 ## 예제 작성 규칙
 
