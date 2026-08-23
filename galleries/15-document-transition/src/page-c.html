@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>회의 메모</title>
+    <style>
+      /* 캔버스에 올릴 문서는 스크롤이 생기면 안 그려진다. docs/known-issues.md */
+      html {
+        overflow: hidden;
+      }
+      body {
+        margin: 0;
+        padding: 24px 26px;
+        background: #f2fdf5;
+        color: #123524;
+        font:
+          15px/1.6 'Apple SD Gothic Neo',
+          system-ui,
+          sans-serif;
+      }
+      .kicker {
+        margin: 0 0 6px;
+        color: #c2ead2;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+      }
+      h1 {
+        margin: 0 0 14px;
+        font-size: 22px;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0 0 10px;
+      }
+      .rows {
+        margin: 14px 0;
+        border-top: 1px solid #c2ead2;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 7px 0;
+        border-bottom: 1px solid #c2ead2;
+        font-size: 13px;
+      }
+      .row b {
+        font-variant-numeric: tabular-nums;
+      }
+      .clock {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        margin-top: 16px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #dcfce7;
+      }
+      .clock strong {
+        font-size: 22px;
+        font-variant-numeric: tabular-nums;
+      }
+      .clock span {
+        font-size: 12px;
+        opacity: 0.75;
+      }
+      button {
+        margin-top: 14px;
+        padding: 7px 12px;
+        border: 1px solid #c2ead2;
+        border-radius: 7px;
+        background: #dcfce7;
+        color: inherit;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .stamp {
+        margin-top: 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="kicker">DOCUMENT C</p>
+    <h1>회의 메모</h1>
+    <p>세 번째 문서입니다. 전환 방식을 바꿔 가며 같은 문서 사이를 오갈 수 있습니다.</p>
+    <div class="rows">
+      <div class="row"><span>문서 번호</span><b>C-2026-0823</b></div>
+      <div class="row"><span>상태</span><b>살아 있음</b></div>
+      <div class="row"><span>그려지는 방법</span><b>텍스처 아님, 직접</b></div>
+    </div>
+    <div class="clock">
+      <strong id="clock">0.0</strong><span>초 — 이 숫자가 멈추면 동결본입니다</span>
+    </div>
+    <button type="button" id="mark">도장 찍기</button>
+    <p class="stamp" id="stamp"></p>
+    <script>
+      // 이 숫자가 계속 오르면 살아 있는 문서, 멈춰 있으면 captureElementImage 로 뜬 동결본이다.
+      const clock = document.getElementById('clock');
+      const started = performance.now();
+      setInterval(() => {
+        clock.textContent = ((performance.now() - started) / 1000).toFixed(1);
+      }, 100);
+
+      // 전환이 끝난 뒤에도 문서가 그냥 문서인지 확인하는 버튼이다.
+      let marks = 0;
+      document.getElementById('mark').addEventListener('click', () => {
+        marks += 1;
+        document.getElementById('stamp').textContent =
+          `도장 ${marks}번 찍힘 — 캔버스 위에서 눌렀습니다`;
+      });
+    </script>
+  </body>
+</html>

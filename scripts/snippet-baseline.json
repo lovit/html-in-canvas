@@ -12,5 +12,6 @@
   "11-live-document-3d": 4,
   "12-canvas-rich-editor": 3,
   "13-dom-stencil": 4,
-  "14-motion-recorder": 7
+  "14-motion-recorder": 7,
+  "15-document-transition": 8
 }
