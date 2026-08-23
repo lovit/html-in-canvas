@@ -39,6 +39,7 @@ const zoomInput = document.querySelector('#zoom');
 const cullToggle = document.querySelector('#cull');
 const partialToggle = document.querySelector('#partial');
 const metrics = {
+  center: document.querySelector('#m-center'),
   visible: document.querySelector('#m-visible'),
   drawn: document.querySelector('#m-drawn'),
   average: document.querySelector('#m-average'),
@@ -53,6 +54,9 @@ const history = [];
 let paintCount = 0;
 let needsFullRedraw = true;
 
+/** 고르개로 고른 패널. 어느 것을 보러 갔는지 테두리로 남긴다. */
+let selected = null;
+
 if (ensureSupport()) {
   start();
 }
@@ -63,6 +67,7 @@ function start() {
   stage.layoutSubtree = true;
   stage.addEventListener('paint', guardPaint(onPaint));
 
+  buildPicker();
   wireCamera();
   wireControls();
 
@@ -91,6 +96,44 @@ function buildPanels() {
       y: Math.floor(index / COLUMNS) * (PANEL_H + GAP_Y),
     });
   }
+}
+
+/** 패널 수만큼 번호 버튼을 만든다. 패널을 늘리면 버튼도 따라 는다. */
+function buildPicker() {
+  const picker = document.querySelector('#picker');
+
+  for (const panel of panels) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = String(panel.index + 1);
+    button.className = panel.live ? 'live' : '';
+    button.title = `패널 ${panel.index + 1}${panel.live ? ' (시계가 도는 패널)' : ''}`;
+    button.setAttribute('aria-pressed', 'false');
+    button.addEventListener('click', () => focusPanel(panel));
+    picker.append(button);
+  }
+}
+
+/** 고른 패널을 화면 가운데로 가져온다. */
+function focusPanel(panel) {
+  const zoom = clampZoom(1.3);
+  selected = panel;
+  markPicker();
+
+  moveCamera({
+    zoom,
+    x: panel.x + PANEL_W / 2 - stage.width / 2 / zoom,
+    y: panel.y + PANEL_H / 2 - stage.height / 2 / zoom,
+  });
+  zoomInput.value = String(Math.round(zoom * 100));
+  showZoom();
+}
+
+function markPicker() {
+  const buttons = document.querySelectorAll('#picker button');
+  buttons.forEach((button, index) => {
+    button.setAttribute('aria-pressed', String(selected?.index === index));
+  });
 }
 
 /* 그리기 ------------------------------------------------------------------ */
@@ -138,6 +181,17 @@ function drawPanel(panel, partial) {
   ctx.restore();
 
   const matrix = ctx.drawElementImage(panel.frame, box.x, box.y, box.width, box.height);
+
+  // 고른 패널 표시. 부분 갱신에서도 이 패널을 다시 그릴 때 같이 그려지므로 잔상이 없다.
+  if (selected === panel) {
+    ctx.save();
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect(box.x - 3, box.y - 3, box.width + 6, box.height + 6, 10);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   // 그린 자리에서 클릭과 입력이 잡히게 한다.
   // 회전은 없지만 확대가 들어가므로 transform-origin: 0 0 이 필요하다 (17 참고).
@@ -200,6 +254,17 @@ function moveCamera(changes) {
 
 function wireCamera() {
   let dragging = null;
+
+  // 패널이 히트 테스트를 받으므로 패널 위에서는 캔버스가 pointerdown 을 못 받는다.
+  // Shift 를 누르고 있는 동안만 자식들을 히트 테스트에서 빼서 어디서든 끌 수 있게 한다.
+  const setPanMode = (on) => stage.classList.toggle('pan', on);
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Shift') setPanMode(true);
+  });
+  window.addEventListener('keyup', (event) => {
+    if (event.key === 'Shift') setPanMode(false);
+  });
+  window.addEventListener('blur', () => setPanMode(false));
 
   stage.addEventListener('pointerdown', (event) => {
     dragging = { x: event.clientX, y: event.clientY };
@@ -266,6 +331,8 @@ function wireControls() {
   });
 
   document.querySelector('#fit').addEventListener('click', () => {
+    selected = null;
+    markPicker();
     const worldWidth = COLUMNS * (PANEL_W + GAP_X) - GAP_X;
     const worldHeight = Math.ceil(TONES.length / COLUMNS) * (PANEL_H + GAP_Y) - GAP_Y;
     const zoom = clampZoom(
@@ -275,18 +342,6 @@ function wireControls() {
       zoom,
       x: worldWidth / 2 - stage.width / 2 / zoom,
       y: worldHeight / 2 - stage.height / 2 / zoom,
-    });
-    zoomInput.value = String(Math.round(zoom * 100));
-    showZoom();
-  });
-
-  document.querySelector('#focus').addEventListener('click', () => {
-    const target = panels[5];
-    const zoom = clampZoom(1.3);
-    moveCamera({
-      zoom,
-      x: target.x + PANEL_W / 2 - stage.width / 2 / zoom,
-      y: target.y + PANEL_H / 2 - stage.height / 2 / zoom,
     });
     zoomInput.value = String(Math.round(zoom * 100));
     showZoom();
@@ -313,11 +368,28 @@ function showZoom() {
 
 /* 측정값 ------------------------------------------------------------------- */
 
+/** 캔버스 한가운데에 놓인 패널이 몇 번인지. 끌거나 확대하면 따라 바뀐다. */
+function describeCenter() {
+  const middle = { x: stage.width / 2, y: stage.height / 2 };
+  const found = panels.find((panel) => {
+    const box = screenBox(panel);
+    return (
+      middle.x >= box.x &&
+      middle.x <= box.x + box.width &&
+      middle.y >= box.y &&
+      middle.y <= box.y + box.height
+    );
+  });
+  if (!found) return '패널 없음 (빈자리)';
+  return `패널 ${found.index + 1}${found.live ? ' · 시계' : ''}`;
+}
+
 function report(visible, drawn, changed) {
   history.push(drawn);
   if (history.length > 20) history.shift();
   const average = history.reduce((sum, value) => sum + value, 0) / history.length;
 
+  metrics.center.textContent = describeCenter();
   metrics.visible.textContent = `${visible} / ${panels.length}`;
   metrics.drawn.textContent = `${drawn}장`;
   metrics.average.textContent = `${average.toFixed(1)}장`;

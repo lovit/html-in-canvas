@@ -13,6 +13,11 @@
   cursor: grabbing;
 }
 
+/* Shift 를 누르고 있는 동안. 자식이 포인터를 가로채지 않아 어디서든 끌 수 있다. */
+#stage.pan iframe {
+  pointer-events: none !important;
+}
+
 /* canvas 의 직계 자식. 확대가 들어가므로 축을 왼쪽 위로 고정해야
    반환 행렬을 그대로 쓸 수 있다. 17 에서 확인한 것이다. */
 #stage iframe {
@@ -69,6 +74,36 @@ output {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.6rem;
+}
+
+.picker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.35rem;
+}
+
+.picker button {
+  position: relative;
+  padding: 0.4rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 시계가 도는 패널에는 점을 붙인다. */
+.picker button.live::after {
+  content: '';
+  position: absolute;
+  top: 0.28rem;
+  right: 0.28rem;
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 50%;
+  background: #38bdf8;
+}
+
+.picker button[aria-pressed='true'] {
+  border-color: #38bdf8;
+  background: rgb(56 189 248 / 18%);
+  color: #e0f2fe;
 }
 
 .metrics {
