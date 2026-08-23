@@ -9,8 +9,9 @@
 
 <선택: footer>
 Closes #<issue-number>
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 ```
+
+`Co-Authored-By` 트레일러는 붙이지 않는다. 도구가 자동으로 붙이려 해도 지운다.
 
 ### Type 표
 
@@ -76,7 +77,7 @@ diff 를 읽고 변경사항을 의도 단위로 나눈다. 단일 의도면 바
 git add <관련 파일>
 git commit -m "<type>(<scope>): <한국어 설명>
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
+<선택: 왜 이 변경이 필요한지>"
 ```
 
 커밋 본문에도 하드랩을 넣지 않는다. 문단은 한 줄로 쓴다.
