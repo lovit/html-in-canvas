@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>19. 문서를 페이지로 자르기 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>19. 문서를 페이지로 자르기</h1>
+      <p class="lede">
+        긴 글 하나를 인쇄용 페이지들로 나눈다. 02 에서 배운 9인자 오버로드를 실전 크기로 쓰고,
+        머리글과 쪽번호는 캔버스가 얹는다.
+      </p>
+
+      <div class="layout">
+        <!-- 캔버스가 곧 한 페이지다. 백킹 스토어 크기가 인쇄 해상도가 된다. -->
+        <canvas id="stage" width="620" height="560">
+          <article id="article">
+            <h2>캔버스가 종이를 만든다</h2>
+            <p class="byline">HTML in Canvas 갤러리 · 19번 예제용 원고</p>
+            <p>
+              브라우저는 긴 글을 한 줄로 이어 붙여 보여 준다. 종이는 그렇지 않다. 정해진 높이에서
+              끊고, 다음 장으로 넘기고, 장마다 머리글과 쪽번호를 붙인다. 그 사이를 메우는 일이
+              페이지 나누기다.
+            </p>
+            <p>
+              지금까지 이 갤러리에서 배운 것으로 그 일을 할 수 있다. 요소 하나를 여러 번, 매번 다른
+              부분만 잘라 그리면 된다. 잘라 그리는 방법은 02 에서 이미 봤다.
+            </p>
+            <h3>같은 요소를 여러 번 그린다</h3>
+            <p>
+              페이지 세 장이면 같은 <code>article</code> 을 세 번 그린다. 다른 것은 출처 사각형의
+              세로 위치뿐이다. 문서는 자기가 잘리는지 모른다. 스크롤도 하지 않고, 레이아웃도 바뀌지
+              않는다.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>인자 수</th>
+                  <th>무엇을 할 수 있나</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>3</td>
+                  <td>옮기기</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>옮기고 늘이기</td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td>자르고 옮기고 늘이기</td>
+                </tr>
+              </tbody>
+            </table>
+            <h3>어디서 끊을 것인가</h3>
+            <p>
+              가장 쉬운 방법은 자로 재듯 같은 높이마다 끊는 것이다. 구현이 두 줄이고, 결과는 글자가
+              반으로 잘린 페이지다. 종이책에서는 볼 수 없는 모습이다.
+            </p>
+            <p>
+              사람이 하는 방식은 다르다. 문단이나 그림처럼 덩어리 단위로 보고, 이번 장에 다 들어가지
+              않으면 통째로 다음 장으로 넘긴다. 그러면 장 끝에 빈 자리가 생기지만 글자는 잘리지
+              않는다.
+            </p>
+            <ul>
+              <li>고정 높이: 계산이 간단하고 페이지 수를 미리 알 수 있다</li>
+              <li>덩어리 단위: 글자가 잘리지 않는 대신 아래쪽에 여백이 생긴다</li>
+              <li>겹침 여백: 앞장의 끝을 다음 장에 조금 반복해 흐름을 잇는다</li>
+            </ul>
+            <h3>머리글은 누가 그리나</h3>
+            <p>
+              머리글과 쪽번호는 문서에 없다. 캔버스가 종이 위에 직접 얹는다. 원고를 건드리지 않고
+              장식만 바꿀 수 있다는 뜻이다. 같은 원고로 판형을 여러 개 뽑는 일이 쉬워진다.
+            </p>
+            <blockquote>
+              원고는 원고대로 두고, 종이의 사정은 종이 쪽에서 처리한다. 그 경계를 캔버스가 맡는다.
+            </blockquote>
+            <h3>해상도</h3>
+            <p>
+              캔버스의 <code>width</code> 와 <code>height</code> 는 그림이 담기는 실제 픽셀 수다.
+              화면에 보이는 크기는 CSS 가 정한다. 06 에서 배운 그대로, 두 배로 키워 두면 두 배
+              해상도의 이미지가 나온다. 종이에 뽑을 것이라면 이 값을 올려야 한다.
+            </p>
+            <p>
+              아래 저장 단추는 지금 보고 있는 페이지를 그 해상도로 내보낸다. 전체 시트는 모든 장을
+              한 장에 이어 붙여 한 번에 내보낸다.
+            </p>
+          </article>
+        </canvas>
+
+        <div class="side">
+          <fieldset>
+            <legend>페이지</legend>
+            <div class="pager">
+              <button type="button" id="prev">←</button>
+              <span id="pager-label">1 / 1</span>
+              <button type="button" id="next">→</button>
+            </div>
+            <label class="range"
+              >높이 <input type="range" id="height" min="420" max="900" step="20" value="560" />
+              <output for="height"></output
+            ></label>
+            <label class="range"
+              >여백 <input type="range" id="margin" min="0" max="48" step="4" value="24" />
+              <output for="margin"></output
+            ></label>
+            <label class="range"
+              >겹침 <input type="range" id="overlap" min="0" max="60" step="5" value="0" />
+              <output for="overlap"></output
+            ></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>자르는 방법</legend>
+            <label class="radio"
+              ><input type="radio" name="mode" value="fixed" checked /> 같은 높이로 (글자가
+              잘린다)</label
+            >
+            <label class="radio"
+              ><input type="radio" name="mode" value="flow" /> 덩어리 단위로 (여백이 생긴다)</label
+            >
+            <label class="switch"
+              ><input type="checkbox" id="marks" checked /> 자른 자리 표시</label
+            >
+          </fieldset>
+
+          <fieldset>
+            <legend>내보내기</legend>
+            <label class="range"
+              >배율 <input type="range" id="scale" min="1" max="3" step="1" value="1" />
+              <output for="scale"></output
+            ></label>
+            <div class="buttons">
+              <button type="button" id="save-page">이 페이지 PNG</button>
+              <button type="button" id="save-sheet">전체 시트</button>
+            </div>
+            <p class="hint" id="status">—</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>측정값</legend>
+            <dl class="metrics">
+              <dt>원고 높이</dt>
+              <dd id="m-docheight">—</dd>
+              <dt>페이지 수</dt>
+              <dd id="m-pages">—</dd>
+              <dt>경계에 걸린 덩어리</dt>
+              <dd id="m-cuts">—</dd>
+              <dt>이 페이지 채움</dt>
+              <dd id="m-fill">—</dd>
+              <dt>내보낼 크기</dt>
+              <dd id="m-export">—</dd>
+            </dl>
+          </fieldset>
+        </div>
+      </div>
+
+      <p class="note">
+        원고는 캔버스의 자식으로 들어 있을 뿐, 페이지 나누기를 전혀 모릅니다. 스크롤도 하지 않고
+        레이아웃도 바뀌지 않습니다. 자르는 일은 그리는 쪽에서 합니다.
+      </p>
+
+      <p><a href="../20-webgpu-texture/">다음 예제: 20. WebGPU 로 요소 텍스처 올리기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
