@@ -41,7 +41,7 @@ canvas.requestPaint();
 partial interface HTMLCanvasElement {
   [CEReactions, Reflect] attribute boolean layoutSubtree;
   attribute EventHandler onpaint;
-  void requestPaint();
+  undefined requestPaint();
   ElementImage captureElementImage(Element element);
   DOMMatrix getElementTransform((Element or ElementImage) element, DOMMatrix drawTransform);
 };
@@ -68,18 +68,20 @@ interface ElementImage {
 };
 
 partial interface WebGLRenderingContext {
-  void texElementImage2D(GLenum target, GLenum internalformat,
+  undefined texElementImage2D(GLenum target, GLenum internalformat,
                          (Element or ElementImage) element,
                          optional WebGLCopyElementImageConfig config = {});
 };
 
 partial interface GPUQueue {
-  void copyElementImageToTexture(GPUCopyElementImageSource source,
+  undefined copyElementImageToTexture(GPUCopyElementImageSource source,
                                  GPUCopyElementImageDestination destination);
 };
 ```
 
 `drawElementImage()` 의 인자 개수는 `drawImage()` 와 같은 규칙을 따른다. 3인자는 위치만, 5인자는 위치와 크기, 7인자와 9인자는 소스 사각형을 잘라 쓴다.
+
+`getElementTransform()` 은 그리지 않고 행렬만 구한다. 위치 동기화(03 참고)에는 보통 `drawElementImage()` 의 반환값이면 충분하므로 이 저장소의 예제에서는 쓰지 않는다. 그릴 자리를 미리 알아야 하거나, 그리지 않는 엘리먼트의 히트 테스트 위치만 맞추고 싶을 때 쓴다.
 
 ## 지켜야 하는 조건
 

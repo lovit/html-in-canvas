@@ -23,16 +23,21 @@ galleries/NN-job-name/
 
 ### 기능 감지와 폴백
 
-모든 예제는 `../_shared/support.js` 를 써서 API 지원 여부를 먼저 확인한다. 미지원이면 안내 배너를 띄우고 조용히 멈춘다. 콘솔에 에러를 던지고 화면을 비워 두지 않는다.
+모든 예제는 `../../_shared/support.js` 를 써서 API 지원 여부를 먼저 확인한다. 미지원이면 안내 배너를 띄우고 조용히 멈춘다. 콘솔에 에러를 던지고 화면을 비워 두지 않는다.
+
+`ensureSupport()` 는 인자를 받지 않는다. WebGL 확장까지 필요하면 `{ webgl: true }` 를 준다.
 
 ```js
-import { ensureSupport } from '../_shared/support.js';
+import { ensureSupport, guardPaint } from '../../_shared/support.js';
 
-const canvas = document.querySelector('#stage');
-if (!ensureSupport(canvas)) {
-  // 배너는 ensureSupport 가 이미 띄웠다. 여기서 조용히 끝낸다.
-} else {
-  start(canvas);
+// 미지원이면 배너를 이미 띄웠으므로 여기서 조용히 끝낸다.
+if (ensureSupport()) {
+  start();
+}
+
+// WebGL 예제라면
+if (ensureSupport({ webgl: true })) {
+  start();
 }
 ```
 
@@ -101,7 +106,7 @@ README 에 코드를 인용할 때는 소스에서 그대로 복사한다. 들�
 1. h1 제목과 한 줄 요약
 2. 무엇을 배우나
 3. 실행 방법
-4. 핵심 코드 해설 (조각을 하나씩 떼어 설명)
+4. 핵심 코드 (조각을 하나씩 떼어 설명)
 5. 직접 해볼 것
 6. 막히는 지점
 7. 다음 예제 링크

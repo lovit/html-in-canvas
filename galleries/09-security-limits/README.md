@@ -4,6 +4,8 @@
 
 ![다섯 가지 항목을 왼쪽 실제 DOM 과 오른쪽 캔버스로 비교한 화면. 교차 출처 이미지와 교차 출처 iframe 이 캔버스 쪽에서만 비어 있다.](screenshot.png)
 
+> 이 문서의 측정값은 Chrome 151.0.7922.138 (macOS) 에서 2026-08-21 에 잰 것이다. 표준화 전 API 라 다음 버전에서 달라질 수 있다.
+
 ## 무엇을 배우나
 
 - read-back-allowed rendering 이 무엇을 걸러 내는지
@@ -20,20 +22,49 @@ mise run chrome
 
 `09-security-limits/` 로 들어간다. **이 예제는 `file://` 로 열면 절반이 동작하지 않는다.** 교차 출처를 만들 수 없기 때문이다.
 
-## 교차 출처를 만드는 법
+## 핵심 코드
+
+### 1. 교차 출처를 만드는 법
 
 외부 서버를 부르지 않고 교차 출처를 만든다. `localhost` 와 `127.0.0.1` 은 같은 컴퓨터를 가리키지만 브라우저에게는 다른 출처다.
 
 ```js
+/** 같은 내용을 다른 출처로 가리킬 수 있는 짝. 로컬 서버에서만 성립한다. */
+const LOOPBACK = { localhost: '127.0.0.1', '127.0.0.1': 'localhost' };
+
 function crossOrigin() {
   const { protocol, hostname, port } = location;
   if (protocol !== 'http:' && protocol !== 'https:') return null;
-  const other = hostname === 'localhost' ? '127.0.0.1' : 'localhost';
+
+  const other = LOOPBACK[hostname];
+  if (!other) return null;
+
   return `${protocol}//${other}${port ? `:${port}` : ''}`;
 }
 ```
 
 같은 서버, 같은 파일인데 호스트 이름만 다르다. 인터넷 연결도, 외부 의존성도 필요 없다.
+
+`LOOPBACK` 에 없는 호스트면 `null` 을 준다. 발행된 사이트에서는 같은 파일을 내어 주는 두 번째 출처가 없기 때문이다. 그 경우에는 교차 출처 칸을 만들지 않고 안내 문구로 대신한다. 이 검사를 빼면 `https://localhost/...` 라는 엉뚱한 주소를 만들어, 양쪽이 다 실패한 것을 "교차 출처라서 빠졌다" 로 오해하게 된다.
+
+### 2. 캔버스가 오염됐는지 물어본다
+
+각 칸 아래 줄은 짐작이 아니라 그 캔버스에서 실제로 불러 본 결과다.
+
+```js
+function reportTaint(canvas) {
+  const verdict = document.querySelector(`[data-verdict="${canvas.dataset.case}"]`);
+  try {
+    canvas.toDataURL();
+    verdict.textContent =
+      'toDataURL() 성공 — 캔버스가 오염되지 않았습니다. 위험한 내용은 그려지지 않고 빠집니다.';
+  } catch (error) {
+    verdict.textContent = `toDataURL() 실패 (${error.name}) — 캔버스가 오염되었습니다.`;
+  }
+}
+```
+
+오염된 캔버스는 `toDataURL()` 이 `SecurityError` 를 던진다. 던지지 않는다는 것은 읽어도 되는 것만 그려졌다는 뜻이다.
 
 ## 확인 결과
 

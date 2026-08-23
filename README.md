@@ -34,7 +34,7 @@ Chrome 이 `http://localhost:4173/galleries/` 를 연다. 거기서 예제를 �
 
 | 경로                                | 내용                                                     |
 | ----------------------------------- | -------------------------------------------------------- |
-| [`galleries/`](galleries/README.md) | 예제 10개와 튜토리얼                                     |
+| [`galleries/`](galleries/README.md) | 예제 14개와 튜토리얼 (기초 10 + 고급 4)                  |
 | [`docs/`](docs/api-reference.md)    | API 요약, 브라우저 셋업, 용어 대응표                     |
 | `scripts/`                          | 정적 서버와 검사 스크립트 (의존성 없음)                  |
 | `.claude/`                          | 개발 워크플로 커맨드, 리뷰 에이전트, `/humanize-ko` 스킬 |
@@ -44,7 +44,7 @@ Chrome 이 `http://localhost:4173/galleries/` 를 연다. 거기서 예제를 �
 `main` 에 푸시하면 GitHub Actions 가 사이트를 만들어 배포한다.
 
 - 사이트: <https://lovit.github.io/html-in-canvas/>
-- 랜딩 페이지에 예제 열 개가 스크린샷과 함께 나오고, 각 예제의 데모와 튜토리얼로 갈 수 있다
+- 랜딩 페이지에 예제 열네 개가 스크린샷과 함께 나오고, 각 예제의 데모와 튜토리얼로 갈 수 있다
 
 로컬에서 같은 결과를 만들어 볼 수 있다.
 

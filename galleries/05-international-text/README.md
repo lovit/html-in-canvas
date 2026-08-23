@@ -4,6 +4,8 @@
 
 ![아랍어, 히브리어, 한국어 세로쓰기 표본이 좌우로 비교되어 있다. 왼쪽은 줄이 접히고 방향이 지켜지지만 오른쪽은 한 줄로 흘러 잘린다.](screenshot.png)
 
+> 이 문서의 측정값은 Chrome 151.0.7922.138 (macOS) 에서 2026-08-21 에 잰 것이다. 표준화 전 API 라 다음 버전에서 달라질 수 있다.
+
 ## 무엇을 배우나
 
 - 캔버스 텍스트 API 의 한계가 구체적으로 어디까지인지
@@ -40,7 +42,9 @@ canvas.requestPaint();
 
 ```html
 <div class="specimen" dir="rtl" lang="ar">مرحبا بالعالم…</div>
-<div class="specimen" lang="ko" style="writing-mode: vertical-rl">세로로 흐르는 글줄…</div>
+<div class="specimen" lang="ko" style="writing-mode: vertical-rl; height: 190px">
+  세로로 흐르는 글줄…
+</div>
 <div class="specimen" lang="ja">
   <ruby>東京<rt>とうきょう</rt></ruby
   >から…

@@ -4,6 +4,8 @@ HTML 레이아웃 자체를 마스크로 쓴다. 아이콘, 글자, 막대가 �
 
 ![아이콘과 "프로필" 글자와 막대 두 개가 모양만 남고, 그 안이 움직이는 색 도형으로 채워진 화면.](screenshot.png)
 
+> 이 문서의 측정값은 Chrome 151.0.7922.138 (macOS) 에서 2026-08-22 에 잰 것이다. 표준화 전 API 라 다음 버전에서 달라질 수 있다.
+
 ## 무엇을 배우나
 
 - 마스크는 색이 아니라 **알파 채널**로 일한다
@@ -70,8 +72,8 @@ ctx.arc(...); ctx.fill();   // 원 2 ← 여기서 원 1 이 지워진다
 해결은 간단하다. **채울 그림을 따로 완성한 다음 한 번만 합성한다.**
 
 ```js
-let fillLayer = new OffscreenCanvas(stage.width, stage.height);
-let fillLayerCtx = fillLayer.getContext('2d');
+fillLayer = new OffscreenCanvas(stage.width, stage.height);
+fillLayerCtx = fillLayer.getContext('2d');
 ```
 
 합성 모드를 쓸 때 일반적으로 지켜야 하는 규칙이다. 이 API 와 상관없는 캔버스의 원래 성질이다.
@@ -130,7 +132,7 @@ let fillLayerCtx = fillLayer.getContext('2d');
 
 - "아이콘과 글자" 마스크에 "움직이는 도형" 을 채워 보자. CSS 로는 만들 수 없는 조합이다
 - 마스크 CSS 에서 `background: transparent` 를 지우고 색을 넣어 보자. 사각형이 통째로 남는다
-- 카드 격자에서 네 번째 카드만 옅게 채워지는 것을 보자. `opacity: 0.55` 가 그대로 반영된다
+- 카드 격자에서 네 번째마다 한 장씩 옅게 채워지는 것을 보자. `nth-child(4n)` 의 `opacity: 0.55` 가 그대로 반영된다
 - `destination-out` 으로 글자 모양 구멍을 뚫어 보자
 - 오프스크린 레이어를 걷어내고 합성 모드를 켠 채로 원을 여러 개 그려 보자. 마지막 원만 남는다
 
