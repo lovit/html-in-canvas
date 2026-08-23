@@ -12,6 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { escapeHtml } from './html.mjs';
 import { fenceBlocks, listSourceFiles, locate } from './snippets.mjs';
 
 const ROOT = normalize(join(fileURLToPath(import.meta.url), '..', '..'));
@@ -84,11 +85,6 @@ async function renderMarkdown(markdown) {
     return null;
   }
   return response.text();
-}
-
-/** 렌더링에 실패했을 때 쓰는 대체 표현. 최소한 읽을 수는 있어야 한다. */
-function escapeHtml(text) {
-  return text.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
 }
 
 /** 카드 요약처럼 한 줄짜리 텍스트에 쓰는 최소 변환. 인라인 코드와 강조만 처리한다. */
