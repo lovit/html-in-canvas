@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>15. 문서 사이 전환 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>15. 문서 사이 전환</h1>
+      <p class="lede">
+        옛 문서를 <code>captureElementImage()</code> 로 얼려 두고, 새 문서를 그 위에 겹쳐 넘긴다.
+        프레임워크 없이 손으로 만든 View Transition 이다.
+      </p>
+
+      <!-- scrolling="no" 가 없으면 문서가 안 그려진다. docs/known-issues.md -->
+      <canvas id="stage" width="760" height="480">
+        <iframe
+          id="frame"
+          src="src/page-a.html"
+          title="지금 보고 있는 문서"
+          width="360"
+          height="440"
+          scrolling="no"
+        ></iframe>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>문서 넘기기</legend>
+          <div class="buttons">
+            <button type="button" id="prev">← 이전 문서</button>
+            <button type="button" id="next">다음 문서 →</button>
+          </div>
+          <p class="hint">전환이 도는 동안 왼쪽은 멈춰 있고 오른쪽은 시계가 계속 돕니다.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>전환 방식</legend>
+          <label class="radio"
+            ><input type="radio" name="mode" value="fade" checked /> 크로스페이드</label
+          >
+          <label class="radio"><input type="radio" name="mode" value="push" /> 밀어내기</label>
+          <label class="radio"><input type="radio" name="mode" value="zoom" /> 확대</label>
+          <label class="range"
+            >시간
+            <input type="range" id="duration" min="200" max="2000" step="100" value="900" />
+            <output for="duration"></output
+          ></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>지금 문서</dt>
+            <dd id="m-current">A</dd>
+            <dt>동결본</dt>
+            <dd id="m-frozen">없음</dd>
+            <dt>얼릴 때 시계</dt>
+            <dd id="m-frozen-clock">—</dd>
+            <dt>지금 문서의 시계</dt>
+            <dd id="m-live-clock">—</dd>
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        전환이 끝나면 동결본을 <code>close()</code> 로 놓아줍니다. 놓아준 뒤에는
+        <code>width</code> 가 0 이 되고 다시 그리려 하면 <code>InvalidStateError</code> 가 납니다.
+        측정값의 "동결본" 칸에서 그 상태가 바뀌는 것을 볼 수 있습니다.
+      </p>
+
+      <p><a href="../16-nesting-limits/">다음 예제: 16. 중첩의 한계 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

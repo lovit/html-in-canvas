@@ -39,6 +39,19 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 13 | [`13-dom-stencil`](./13-dom-stencil/) | 합성 모드로 DOM 레이아웃 자체를 마스크로 쓰기 |
 | 14 | [`14-motion-recorder`](./14-motion-recorder/) | CSS 애니메이션을 WebM 영상으로 뽑기 |
 
+## 문서 연결편
+
+문서 하나를 그리는 데서 나아가, 문서와 문서가 연결된 상태에서 캔버스가 어디까지 하는지 본다.
+
+| # | 예제 | 배우는 것 |
+| --- | --- | --- |
+| 15 | [`15-document-transition`](./15-document-transition/) | 옛 문서를 얼려 두고 새 문서와 겹쳐 넘기기 |
+| 16 | `16-nesting-limits` (준비 중) | 무엇이 몇 겹까지 중첩되고 무엇이 안 되는지 |
+| 17 | `17-canvas-browser` (준비 중) | 캔버스 위의 미니 브라우저와 히트 테스트의 경계 |
+| 18 | `18-document-workspace` (준비 중) | 살아 있는 문서 여럿을 무한 캔버스에 |
+| 19 | `19-paginate` (준비 중) | 긴 문서를 인쇄용 페이지로 자르기 |
+| 20 | `20-webgpu-texture` (준비 중) | WebGPU 로 요소를 텍스처에 올리기 |
+
 번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.
 
 ## 예제 공통 규칙
