@@ -15,7 +15,7 @@ canvas.addEventListener('paint', () => {
 canvas.requestPaint();
 ```
 
-아직 표준화 전이고 Chromium 계열에서 플래그가 필요하다. 자세한 것은 [API 요약](docs/api-reference.md)과 [브라우저 셋업](docs/browser-setup.md)에 있다.
+아직 표준화 전이고 Chromium 계열에서 플래그가 필요하다. 자세한 것은 [API 요약](docs/api-reference.md)과 [브라우저 셋업](docs/browser-setup.md)에 있다. 판올림 한 번에 동작이 바뀌기도 한다. 실제로 부딪힌 것들은 [알려진 문제](docs/known-issues.md)에 모아 두었다.
 
 ## 시작하기
 
@@ -35,7 +35,7 @@ Chrome 이 `http://localhost:4173/galleries/` 를 연다. 거기서 예제를 �
 | 경로                                | 내용                                                     |
 | ----------------------------------- | -------------------------------------------------------- |
 | [`galleries/`](galleries/README.md) | 예제 14개와 튜토리얼 (기초 10 + 고급 4)                  |
-| [`docs/`](docs/api-reference.md)    | API 요약, 브라우저 셋업, 용어 대응표                     |
+| [`docs/`](docs/api-reference.md)    | API 요약, 브라우저 셋업, 용어 대응표, 알려진 문제        |
 | `scripts/`                          | 정적 서버와 검사 스크립트 (의존성 없음)                  |
 | `.claude/`                          | 개발 워크플로 커맨드, 리뷰 에이전트, `/humanize-ko` 스킬 |
 

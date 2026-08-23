@@ -18,12 +18,14 @@
 
       <!-- 그릴 대상은 여기서도 canvas 의 직계 자식이어야 한다. -->
       <canvas id="stage" width="760" height="540">
+        <!-- scrolling="no" 가 없으면 안 그려진다. docs/known-issues.md 를 보라. -->
         <iframe
           id="front"
           src="src/page-front.html"
           title="앞장 문서"
           width="360"
           height="480"
+          scrolling="no"
         ></iframe>
         <iframe
           id="back"
@@ -31,6 +33,7 @@
           title="뒷장 문서"
           width="360"
           height="480"
+          scrolling="no"
         ></iframe>
       </canvas>
 
