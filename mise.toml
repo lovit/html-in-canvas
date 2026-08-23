@@ -63,7 +63,7 @@ description = "마크다운 하드랩 검사"
 run = "node scripts/check-hard-wrap.mjs"
 
 [tasks."check:snippets"]
-description = "튜토리얼 코드 조각이 소스와 맞는지 본다 (실패시키지 않는다)"
+description = "튜토리얼 코드 조각이 소스와 맞는지 본다. 링크 수가 줄면 실패한다"
 run = "node scripts/check-snippets.mjs"
 
 [tasks."check:galleries"]
@@ -72,4 +72,4 @@ run = "node scripts/check-galleries.mjs"
 
 [tasks.check]
 description = "CI 와 동일한 검사"
-depends = ["check:wrap", "check:galleries"]
+depends = ["check:wrap", "check:galleries", "check:snippets"]

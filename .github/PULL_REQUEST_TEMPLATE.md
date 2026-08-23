@@ -20,7 +20,13 @@ Closes #
 
 ## 확인한 것
 
-<!-- 예제 PR 이면 플래그를 켠 Chrome 에서 동작하는 스크린샷을 넣습니다. -->
+<!--
+예제 PR 이면 플래그를 켠 Chrome 에서 동작하는 스크린샷을 넣습니다.
+저장소 안의 이미지를 링크할 때는 브랜치가 아니라 커밋 SHA 를 가리키세요.
+머지하며 브랜치를 지우면 blob/feature/N/... 링크가 전부 404 가 됩니다.
+
+  https://github.com/lovit/html-in-canvas/blob/<커밋SHA>/galleries/NN-name/screenshot.png?raw=true
+-->
 
 ```bash
 prek run --all-files

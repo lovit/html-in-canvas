@@ -1,0 +1,16 @@
+{
+  "01-hello-world": 4,
+  "02-draw-geometry": 2,
+  "03-interactive-form": 2,
+  "04-paint-event": 4,
+  "05-international-text": 2,
+  "06-image-export": 6,
+  "07-webgl-texture": 3,
+  "08-offscreen-worker": 7,
+  "09-security-limits": 2,
+  "10-accessible-chart": 4,
+  "11-live-document-3d": 4,
+  "12-canvas-rich-editor": 3,
+  "13-dom-stencil": 4,
+  "14-motion-recorder": 7
+}

@@ -41,6 +41,8 @@ git diff --stat origin/main..HEAD
 
 `.github/PULL_REQUEST_TEMPLATE.md` 를 읽어 본문을 파일에 쓴다. `Closes #<n>` 을 반드시 넣고, 예제 PR 이면 브라우저에서 실제로 동작하는 스크린샷을 넣는다. 문단 안에서 줄을 바꾸지 않는다.
 
+저장소 안의 이미지를 링크할 때는 **브랜치가 아니라 커밋 SHA** 를 쓴다. `git rev-parse HEAD` 로 얻는다. 머지하며 브랜치를 지우면 `blob/feature/N/...` 링크가 전부 404 가 된다.
+
 하드랩 검사를 통과시킨다.
 
 ```bash

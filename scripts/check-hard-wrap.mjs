@@ -55,6 +55,8 @@ function findHardWraps(text) {
   let inFence = false;
   let fenceMarker = '';
   let inFrontMatter = lines[0]?.trim() === '---';
+  // 이슈·PR 템플릿은 여러 줄 HTML 주석으로 안내를 적는다. 그 안은 검사하지 않는다.
+  let inComment = false;
 
   /** 직전 줄이 "이어질 수 있는" 줄이었는지 (문단 본문 또는 리스트 항목) */
   let prevContinuable = false;
@@ -64,6 +66,17 @@ function findHardWraps(text) {
 
     if (inFrontMatter) {
       if (i > 0 && line.trim() === '---') inFrontMatter = false;
+      prevContinuable = false;
+      continue;
+    }
+
+    if (inComment) {
+      if (line.includes('-->')) inComment = false;
+      prevContinuable = false;
+      continue;
+    }
+    if (line.includes('<!--') && !line.includes('-->')) {
+      inComment = true;
       prevContinuable = false;
       continue;
     }
