@@ -57,6 +57,15 @@
   color: #ffffff;
 }
 
+/*
+ * 툴팁과 범례는 읽히기만 하면 되고 눌릴 일이 없다.
+ * canvas 자식은 실제로 히트 테스트 대상이므로 막대 위에 겹치면 클릭을 가로챈다.
+ */
+#legend,
+#tooltip {
+  pointer-events: none;
+}
+
 #legend {
   display: flex;
   gap: 8px;

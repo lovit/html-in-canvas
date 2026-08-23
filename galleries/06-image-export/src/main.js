@@ -112,7 +112,8 @@ function save(type, extension) {
     link.href = url;
     link.download = `og-card-${stage.width}x${stage.height}.${extension}`;
     link.click();
-    URL.revokeObjectURL(url);
+    // 같은 tick 에 회수하면 큰 blob 에서 다운로드가 시작되기 전에 사라질 수 있다.
+    setTimeout(() => URL.revokeObjectURL(url), 0);
     status.textContent = `${link.download} 저장됨 (${Math.round(blob.size / 1024)} KB)`;
   }, type);
 }

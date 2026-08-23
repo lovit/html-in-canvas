@@ -20,10 +20,12 @@ const SLOTS = [
 ];
 
 // 워커에서 requestAnimationFrame 을 쓸 수 있으면 쓰고, 없으면 타이머로 대신한다.
+// 타이머는 콜백에 인자를 주지 않으므로 타임스탬프를 직접 만들어 넘긴다.
+// 안 그러면 render(now) 의 now 가 undefined 가 되어 좌표가 전부 NaN 이 된다.
 const schedule =
   typeof requestAnimationFrame === 'function'
     ? requestAnimationFrame
-    : (callback) => setTimeout(callback, 16);
+    : (callback) => setTimeout(() => callback(performance.now()), 16);
 
 self.addEventListener('message', (event) => {
   const message = event.data;
