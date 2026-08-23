@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>작업판 패널</title>
+    <style>
+      html {
+        overflow: hidden;
+      }
+      body {
+        margin: 0;
+        padding: 12px 14px;
+        background: #ffffff;
+        color: #16202e;
+        font:
+          13px/1.5 'Apple SD Gothic Neo',
+          system-ui,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+        margin: -12px -14px 10px;
+        padding: 8px 14px;
+        color: #fff;
+      }
+      header b {
+        font-size: 13px;
+      }
+      header span {
+        margin-left: auto;
+        font-size: 11px;
+        opacity: 0.85;
+      }
+      p {
+        margin: 0 0 8px;
+      }
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 12px;
+      }
+      input[type='text'] {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 3px;
+        padding: 4px 6px;
+        border: 1px solid #cbd5e1;
+        border-radius: 5px;
+        font: inherit;
+      }
+      .check {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 12px;
+      }
+      .clock {
+        margin-top: 8px;
+        font-size: 18px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .static {
+        margin-top: 8px;
+        color: #64748b;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="head"><b id="title">패널</b><span id="kind">고정</span></header>
+    <p id="body-text">이 칸은 별도의 문서입니다.</p>
+    <label
+      >메모
+      <input type="text" id="memo" />
+    </label>
+    <label class="check"><input type="checkbox" id="done" /> 확인함</label>
+    <div class="clock" id="clock" hidden>0.0</div>
+    <div class="static" id="note"></div>
+    <script>
+      // 패널마다 다른 문서다. 무엇이 다른지는 주소의 쿼리로 받는다.
+      const params = new URLSearchParams(location.search);
+      const index = Number(params.get('i') ?? 0);
+      const tone = params.get('tone') ?? '#1d4ed8';
+      const live = params.get('live') === '1';
+
+      document.getElementById('head').style.background = tone;
+      document.getElementById('title').textContent = `패널 ${index + 1}`;
+      document.getElementById('kind').textContent = live ? '살아 있음' : '고정';
+      document.getElementById('memo').value = `메모 ${index + 1}`;
+
+      if (live) {
+        // 이 문서만 계속 바뀐다. 바깥의 changedElements 에 이 패널만 올라와야 한다.
+        const clock = document.getElementById('clock');
+        clock.hidden = false;
+        const started = performance.now();
+        setInterval(() => {
+          clock.textContent = ((performance.now() - started) / 1000).toFixed(1);
+        }, 100);
+      } else {
+        document.getElementById('note').textContent = '바뀌지 않으면 paint 도 없다';
+      }
+    </script>
+  </body>
+</html>

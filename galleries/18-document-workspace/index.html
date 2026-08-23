@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>18. 여러 문서를 한 판에 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>18. 여러 문서를 한 판에</h1>
+      <p class="lede">
+        살아 있는 문서 열두 개를 무한 캔버스에 늘어놓는다. 화면에 걸치는 것만 그리고, 바뀐 것만 다시
+        그린다. 04 에서 배운 <code>changedElements</code> 를 처음으로 필요해서 쓴다.
+      </p>
+
+      <!-- 패널 열두 개는 스크립트가 만들어 넣는다. 전부 이 캔버스의 직계 자식이 된다. -->
+      <canvas id="stage" width="860" height="520"></canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>보기</legend>
+          <p class="hint">캔버스를 끌면 움직이고, 휠을 굴리면 확대·축소됩니다.</p>
+          <label class="range"
+            >확대 <input type="range" id="zoom" min="35" max="150" value="80" />
+            <output for="zoom"></output
+          ></label>
+          <div class="buttons">
+            <button type="button" id="fit">전체 보기</button>
+            <button type="button" id="focus">패널 6 으로</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>그리는 방법</legend>
+          <label class="switch"
+            ><input type="checkbox" id="cull" checked /> 화면 밖 패널 건너뛰기</label
+          >
+          <label class="switch"
+            ><input type="checkbox" id="partial" checked /> 바뀐 패널만 다시 그리기</label
+          >
+          <p class="hint" id="method-note">둘 다 끄면 매 프레임 열두 장을 전부 다시 그립니다.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>화면에 걸친 패널</dt>
+            <dd id="m-visible">—</dd>
+            <dt>이번 paint 에서 그린 것</dt>
+            <dd id="m-drawn">—</dd>
+            <dt>최근 20프레임 평균</dt>
+            <dd id="m-average">—</dd>
+            <dt>changedElements</dt>
+            <dd id="m-changed">—</dd>
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        패널 세 개에만 시계를 넣었습니다. 나머지 아홉 개는 내용이 바뀌지 않으므로
+        <code>changedElements</code> 에 올라오지 않고, 다시 그릴 이유도 없습니다.
+      </p>
+
+      <p><a href="../19-paginate/">다음 예제: 19. 문서를 페이지로 자르기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
