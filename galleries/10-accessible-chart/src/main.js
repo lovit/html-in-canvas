@@ -188,6 +188,9 @@ function drawChildren(ctx) {
     const x = Math.min(columnX(hovered) + COLUMN_WIDTH, PLOT.right - 170);
     const tooltipMatrix = ctx.drawElementImage(tooltip, x, PLOT.top + 12);
     tooltip.style.transform = tooltipMatrix.toString();
+  } else {
+    // 그리지 않을 때는 위치도 되돌린다. 안 그러면 보이지 않는 채로 마지막 자리에 남는다.
+    tooltip.style.transform = 'none';
   }
 }
 

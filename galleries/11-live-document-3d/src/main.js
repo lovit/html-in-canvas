@@ -8,6 +8,7 @@
 //   2. iframe 안쪽이 바뀌면 바깥 캔버스의 paint 가 저절로 온다. 폴링이 필요 없다
 
 import { ensureSupport, guardPaint } from '../../_shared/support.js';
+import { buildProgram, createElementTexture } from '../../_shared/webgl.js';
 
 const VERTEX_SHADER = `#version 300 es
 in vec2 grid;
@@ -119,7 +120,7 @@ if (ensureSupport({ webgl: true })) {
 
 function start() {
   const gl = stage.getContext('webgl2');
-  const program = buildProgram(gl);
+  const program = buildProgram(gl, VERTEX_SHADER, FRAGMENT_SHADER);
   const uniforms = {
     progress: gl.getUniformLocation(program, 'progress'),
     sheetDepth: gl.getUniformLocation(program, 'sheetDepth'),
@@ -129,8 +130,8 @@ function start() {
   const indexCount = setupGrid(gl, program);
 
   const textures = new Map([
-    [frontFrame, createTexture(gl)],
-    [backFrame, createTexture(gl)],
+    [frontFrame, createElementTexture(gl)],
+    [backFrame, createElementTexture(gl)],
   ]);
 
   gl.enable(gl.DEPTH_TEST);
@@ -200,16 +201,6 @@ function uploadPage(gl, texture, frame) {
   gl.texElementImage2D(gl.TEXTURE_2D, gl.RGBA8, frame, { width: 720, height: 960 });
 }
 
-function createTexture(gl) {
-  const texture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  return texture;
-}
-
 /** 종이를 격자로 잘게 나눈다. 정점이 촘촘해야 말리는 곡면이 매끄럽다. */
 function setupGrid(gl, program) {
   const positions = [];
@@ -243,30 +234,6 @@ function setupGrid(gl, program) {
   return indices.length;
 }
 
-function buildProgram(gl) {
-  const program = gl.createProgram();
-  gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER));
-  gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER));
-  gl.linkProgram(program);
-
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    throw new Error(`셰이더 링크 실패: ${gl.getProgramInfoLog(program)}`);
-  }
-  gl.useProgram(program);
-  return program;
-}
-
-function compile(gl, type, source) {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    throw new Error(`셰이더 컴파일 실패: ${gl.getShaderInfoLog(shader)}`);
-  }
-  return shader;
-}
-
 function setProgress(value) {
   progress = Math.min(1, Math.max(0, value));
   progressInput.value = String(Math.round(progress * 100));
@@ -294,15 +261,26 @@ function wireControls() {
   document.querySelector('#reset').addEventListener('click', () => animateTo(0));
 
   let dragging = false;
-  stage.addEventListener('pointerdown', (event) => {
+
+  function startDrag(event) {
     dragging = true;
     stage.setPointerCapture(event.pointerId);
     dragFrom(event);
-  });
-  stage.addEventListener('pointermove', (event) => dragging && dragFrom(event));
-  stage.addEventListener('pointerup', () => {
+  }
+
+  function moveDrag(event) {
+    if (dragging) dragFrom(event);
+  }
+
+  // 터치나 펜에서 제스처가 취소되면 pointerup 이 오지 않는다. 그것도 끝으로 친다.
+  function endDrag() {
     dragging = false;
-  });
+  }
+
+  stage.addEventListener('pointerdown', startDrag);
+  stage.addEventListener('pointermove', moveDrag);
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
 
   function dragFrom(event) {
     const box = stage.getBoundingClientRect();

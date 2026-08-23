@@ -14,7 +14,12 @@ export function isSupported() {
 /** WebGL2 쪽 확장까지 필요한 예제용. */
 export function isWebGLSupported() {
   const gl = document.createElement('canvas').getContext('webgl2');
-  return Boolean(gl) && typeof gl.texElementImage2D === 'function';
+  const supported = Boolean(gl) && typeof gl.texElementImage2D === 'function';
+
+  // 살아 있는 WebGL 컨텍스트 수에는 상한이 있다. 탐지용은 바로 놓아준다.
+  gl?.getExtension('WEBGL_lose_context')?.loseContext();
+
+  return supported;
 }
 
 const BANNER_ID = 'hic-support-banner';

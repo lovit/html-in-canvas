@@ -5,6 +5,7 @@
 // 텍스처를 새로 올리는 일은 paint 이벤트 안에서 한다.
 
 import { ensureSupport, guardPaint } from '../../_shared/support.js';
+import { buildProgram, createElementTexture } from '../../_shared/webgl.js';
 
 const VERTEX_SHADER = `#version 300 es
 in vec2 position;
@@ -89,7 +90,7 @@ if (ensureSupport({ webgl: true })) {
 
 function start() {
   const gl = canvas.getContext('webgl2');
-  const program = buildProgram(gl);
+  const program = buildProgram(gl, VERTEX_SHADER, FRAGMENT_SHADER);
   const uniforms = {
     pointer: gl.getUniformLocation(program, 'pointer'),
     time: gl.getUniformLocation(program, 'time'),
@@ -99,7 +100,7 @@ function start() {
   };
 
   setupGeometry(gl, program);
-  const texture = setupTexture(gl);
+  const texture = createElementTexture(gl);
 
   canvas.layoutSubtree = true;
   // 텍스처 업로드는 반드시 paint 안에서 한다. 밖에서 부르면
@@ -157,16 +158,6 @@ function uploadTexture(gl, texture) {
   });
 }
 
-function setupTexture(gl) {
-  const texture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, texture);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  return texture;
-}
-
 function setupGeometry(gl, program) {
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -175,30 +166,6 @@ function setupGeometry(gl, program) {
   const location = gl.getAttribLocation(program, 'position');
   gl.enableVertexAttribArray(location);
   gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
-}
-
-function buildProgram(gl) {
-  const program = gl.createProgram();
-  gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER));
-  gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER));
-  gl.linkProgram(program);
-
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    throw new Error(`셰이더 링크 실패: ${gl.getProgramInfoLog(program)}`);
-  }
-  gl.useProgram(program);
-  return program;
-}
-
-function compile(gl, type, source) {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    throw new Error(`셰이더 컴파일 실패: ${gl.getShaderInfoLog(shader)}`);
-  }
-  return shader;
 }
 
 function swapSample() {

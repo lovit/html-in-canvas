@@ -67,8 +67,8 @@ function start() {
   });
 
   syncOutputs();
+  // buildTiles() 가 카운터 시작까지 챙긴다. 여기서 또 부르면 UI 와 어긋난다.
   buildTiles();
-  startTicking();
 }
 
 /** 카드를 canvas 자식으로 새로 만든다. 자식은 언제든 추가하고 지울 수 있다. */
@@ -203,6 +203,7 @@ function resetMetrics() {
   totalDrawn = 0;
   timeSum = 0;
   timeSamples = 0;
+  changedLog.textContent = 'changedElements: —';
 }
 
 function syncOutputs() {

@@ -120,39 +120,46 @@ async function record() {
   const fps = Number(fpsSelect.value);
   const seconds = Number(durationSelect.value);
   const mimeType = pickMimeType();
+  let stream = null;
 
-  // 녹화와 애니메이션의 시작을 맞춘다. 그래야 첫 프레임부터 담긴다.
-  restartAnimations();
+  try {
+    // 녹화와 애니메이션의 시작을 맞춘다. 그래야 첫 프레임부터 담긴다.
+    restartAnimations();
 
-  const stream = stage.captureStream(fps);
-  const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
-  const chunks = [];
-  recorder.addEventListener('dataavailable', (event) => {
-    if (event.data.size > 0) chunks.push(event.data);
-  });
+    stream = stage.captureStream(fps);
+    const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    const chunks = [];
+    recorder.addEventListener('dataavailable', (event) => {
+      if (event.data.size > 0) chunks.push(event.data);
+    });
 
-  const startedAt = performance.now();
-  recorder.start();
-  metrics.status.textContent = `녹화 중… ${seconds}초`;
+    const startedAt = performance.now();
+    recorder.start();
+    metrics.status.textContent = `녹화 중… ${seconds}초`;
 
-  await new Promise((resolve) => {
-    recorder.addEventListener('stop', resolve, { once: true });
-    setTimeout(() => recorder.stop(), seconds * 1000);
-  });
+    await new Promise((resolve) => {
+      recorder.addEventListener('stop', resolve, { once: true });
+      setTimeout(() => recorder.stop(), seconds * 1000);
+    });
 
-  const elapsed = (performance.now() - startedAt) / 1000;
-  const blob = new Blob(chunks, { type: mimeType || 'video/webm' });
+    const elapsed = (performance.now() - startedAt) / 1000;
+    const blob = new Blob(chunks, { type: mimeType || 'video/webm' });
 
-  if (objectUrl !== null) URL.revokeObjectURL(objectUrl);
-  objectUrl = URL.createObjectURL(blob);
+    if (objectUrl !== null) URL.revokeObjectURL(objectUrl);
+    objectUrl = URL.createObjectURL(blob);
 
-  playback.src = objectUrl;
-  download.href = objectUrl;
-  download.download = `motion-${stage.width}x${stage.height}.webm`;
-  resultMeta.textContent = `${stage.width}×${stage.height} · ${fps}fps · ${elapsed.toFixed(1)}초 · ${Math.round(blob.size / 1024)} KB · ${mimeType || '기본 코덱'}`;
-  result.hidden = false;
-
-  metrics.status.textContent = '녹화 완료';
-  recording = false;
-  recordButton.disabled = false;
+    playback.src = objectUrl;
+    download.href = objectUrl;
+    download.download = `motion-${stage.width}x${stage.height}.webm`;
+    resultMeta.textContent = `${stage.width}×${stage.height} · ${fps}fps · ${elapsed.toFixed(1)}초 · ${Math.round(blob.size / 1024)} KB · ${mimeType || '기본 코덱'}`;
+    result.hidden = false;
+    metrics.status.textContent = '녹화 완료';
+  } catch (error) {
+    metrics.status.textContent = `녹화에 실패했습니다: ${error.message}`;
+  } finally {
+    // 캡처 트랙은 멈추기 전까지 캔버스를 계속 붙잡는다. 누를 때마다 쌓이면 안 된다.
+    for (const track of stream?.getTracks() ?? []) track.stop();
+    recording = false;
+    recordButton.disabled = false;
+  }
 }

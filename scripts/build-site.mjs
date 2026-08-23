@@ -81,8 +81,11 @@ async function renderMarkdown(markdown) {
   });
 
   if (!response.ok) {
-    console.warn(`마크다운 렌더링 실패 (${response.status}). 원문으로 대체합니다.`);
-    return null;
+    // 토큰까지 넣고 실패했다면 CI 다. 조용히 원문으로 물러서면 튜토리얼 전부가
+    // 스타일 없는 덩어리로 발행되는데 워크플로는 초록불이 된다.
+    throw new Error(
+      `마크다운 렌더링 실패 (${response.status}). 토큰이 있는데 실패했으므로 빌드를 멈춥니다.`,
+    );
   }
   return response.text();
 }
