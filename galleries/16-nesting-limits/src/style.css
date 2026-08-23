@@ -1,0 +1,118 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.card h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.what {
+  margin: 0 0 0.8rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.card canvas {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 8px;
+  background: #0b1220;
+}
+
+.pair {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pair canvas {
+  max-width: 116px;
+}
+
+/* 안쪽 캔버스와 그 자식들. 화면에 직접 나오지 않는다. */
+.card canvas canvas {
+  border-radius: 0;
+}
+
+.fallback {
+  width: 240px;
+  height: 150px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  background: #dc2626;
+  color: #fff;
+  font:
+    600 15px/1.4 'Apple SD Gothic Neo',
+    system-ui,
+    sans-serif;
+}
+
+.chip {
+  width: 116px;
+  height: 150px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: #7c3aed;
+  color: #fff;
+  font:
+    600 13px/1.4 'Apple SD Gothic Neo',
+    system-ui,
+    sans-serif;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.7rem;
+  margin: 0.8rem 0 0;
+  font-size: 0.85rem;
+}
+
+.metrics dt {
+  color: var(--muted);
+}
+
+.metrics dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.verdict {
+  margin: 0.7rem 0 0;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.verdict.good {
+  background: rgba(22, 163, 74, 0.16);
+  color: #4ade80;
+}
+
+.verdict.bad {
+  background: rgba(220, 38, 38, 0.16);
+  color: #fca5a5;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}

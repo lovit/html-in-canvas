@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>16. 중첩의 한계 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>16. 중첩의 한계</h1>
+      <p class="lede">
+        문서 안의 문서는 몇 겹이든 그려진다. 그런데 캔버스 안의 캔버스는 그려지지 않는다. 어디까지
+        되고 어디서 막히는지 직접 재 본다.
+      </p>
+
+      <div class="cards">
+        <section class="card">
+          <h2>1. 문서 → iframe → iframe</h2>
+          <p class="what">문서 세 겹. 바깥이 중간 문서를 그리고, 중간 문서 안에 또 문서가 있다.</p>
+          <canvas id="c-docs" width="240" height="150">
+            <iframe
+              id="doc-middle"
+              src="src/page-middle.html"
+              title="중간 문서"
+              width="240"
+              height="150"
+              scrolling="no"
+            ></iframe>
+          </canvas>
+          <dl class="metrics">
+            <dt>그려진 픽셀</dt>
+            <dd id="m-docs-filled">—</dd>
+            <dt>중간 문서 색</dt>
+            <dd id="m-docs-middle">—</dd>
+            <dt>안쪽 문서 색</dt>
+            <dd id="m-docs-inner">—</dd>
+          </dl>
+          <p class="verdict" id="v-docs">—</p>
+        </section>
+
+        <section class="card">
+          <h2>2. 캔버스 → 그리는 캔버스</h2>
+          <p class="what">
+            안쪽도 <code>layoutSubtree</code> 를 켠 캔버스다. 자기 자식을 그리려고 기다린다.
+          </p>
+          <canvas id="c-drawing" width="240" height="150">
+            <canvas id="inner-drawing" width="240" height="150">
+              <div class="fallback">안쪽 캔버스의 자식</div>
+            </canvas>
+          </canvas>
+          <dl class="metrics">
+            <dt>그려진 픽셀</dt>
+            <dd id="m-drawing-filled">—</dd>
+            <dt>최빈 색</dt>
+            <dd id="m-drawing-top">—</dd>
+            <dt>안쪽 paint 횟수</dt>
+            <dd id="m-drawing-paints">—</dd>
+          </dl>
+          <p class="verdict" id="v-drawing">—</p>
+        </section>
+
+        <section class="card">
+          <h2>3. 캔버스 → 평범한 캔버스</h2>
+          <p class="what">
+            안쪽은 <code>layoutSubtree</code> 를 켜지 않고 <code>fillRect()</code> 로 칠하기만 한다.
+          </p>
+          <canvas id="c-plain" width="240" height="150">
+            <canvas id="inner-plain" width="240" height="150"></canvas>
+          </canvas>
+          <dl class="metrics">
+            <dt>그려진 픽셀</dt>
+            <dd id="m-plain-filled">—</dd>
+            <dt>최빈 색</dt>
+            <dd id="m-plain-top">—</dd>
+          </dl>
+          <p class="verdict" id="v-plain">—</p>
+        </section>
+
+        <section class="card">
+          <h2>4. 다른 캔버스에서 뜬 스냅샷</h2>
+          <p class="what">
+            왼쪽 캔버스에서 <code>captureElementImage()</code> 로 뜬 그림을 오른쪽 캔버스에 그려
+            본다.
+          </p>
+          <div class="pair">
+            <canvas id="c-owner" width="116" height="150">
+              <div class="chip" id="chip">스냅샷의 주인</div>
+            </canvas>
+            <canvas id="c-borrow" width="116" height="150"></canvas>
+          </div>
+          <dl class="metrics">
+            <dt>스냅샷 크기</dt>
+            <dd id="m-owner-size">—</dd>
+            <dt>빌려 그리기</dt>
+            <dd id="m-borrow-result">—</dd>
+          </dl>
+          <p class="verdict" id="v-borrow">—</p>
+        </section>
+
+        <section class="card">
+          <h2>5. 스크롤이 생기는 iframe</h2>
+          <p class="what">
+            <code>scrolling="no"</code> 를 일부러 빼고, 프레임보다 긴 문서를 넣었다.
+          </p>
+          <canvas id="c-scroll" width="240" height="150">
+            <iframe
+              id="doc-long"
+              src="src/page-long.html"
+              title="프레임보다 긴 문서"
+              width="240"
+              height="150"
+            ></iframe>
+          </canvas>
+          <dl class="metrics">
+            <dt>그려진 픽셀</dt>
+            <dd id="m-scroll-filled">—</dd>
+            <dt>최빈 색</dt>
+            <dd id="m-scroll-top">—</dd>
+            <dt>문서 배경 색</dt>
+            <dd id="m-scroll-expected">—</dd>
+          </dl>
+          <p class="verdict" id="v-scroll">—</p>
+        </section>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="remeasure">다시 재기</button>
+        <p class="hint">
+          숫자는 캔버스에서 <code>getImageData()</code> 로 직접 센 것입니다. 240×150 이 다 차면
+          36000 입니다.
+        </p>
+      </div>
+
+      <p class="note">
+        5번은 브라우저 회귀입니다. 자세한 것은
+        <a href="../../docs/known-issues.md">알려진 문제</a>에 있습니다.
+      </p>
+
+      <p><a href="../17-canvas-browser/">다음 예제: 17. 캔버스 위의 미니 브라우저 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

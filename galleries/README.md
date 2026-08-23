@@ -46,7 +46,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | # | 예제 | 배우는 것 |
 | --- | --- | --- |
 | 15 | [`15-document-transition`](./15-document-transition/) | 옛 문서를 얼려 두고 새 문서와 겹쳐 넘기기 |
-| 16 | `16-nesting-limits` (준비 중) | 무엇이 몇 겹까지 중첩되고 무엇이 안 되는지 |
+| 16 | [`16-nesting-limits`](./16-nesting-limits/) | 무엇이 몇 겹까지 중첩되고 무엇이 안 되는지 |
 | 17 | `17-canvas-browser` (준비 중) | 캔버스 위의 미니 브라우저와 히트 테스트의 경계 |
 | 18 | `18-document-workspace` (준비 중) | 살아 있는 문서 여럿을 무한 캔버스에 |
 | 19 | `19-paginate` (준비 중) | 긴 문서를 인쇄용 페이지로 자르기 |
