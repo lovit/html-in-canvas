@@ -67,13 +67,23 @@ CSS 애니메이션이 렌더링을 바꾸고, 그것이 `paint` 를 부르고, 
 ### 2. 캔버스를 영상으로
 
 ```js
-const stream = stage.captureStream(fps);
+stream = stage.captureStream(fps);
 const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
 const chunks = [];
 recorder.addEventListener('dataavailable', (event) => {
   if (event.data.size > 0) chunks.push(event.data);
 });
-recorder.start();
+```
+
+`stream` 을 `try` 블록 밖에 선언해 둔 이유가 있다. 녹화가 끝나거나 중간에 실패하더라도 `finally` 에서 캡처 트랙을 멈춰야 하기 때문이다.
+
+```js
+} finally {
+  // 캡처 트랙은 멈추기 전까지 캔버스를 계속 붙잡는다. 누를 때마다 쌓이면 안 된다.
+  for (const track of stream?.getTracks() ?? []) track.stop();
+  recording = false;
+  recordButton.disabled = false;
+}
 ```
 
 `captureStream(fps)` 는 캔버스가 갱신될 때마다 프레임을 뽑아 미디어 스트림으로 만든다. 이 API 와 무관한 캔버스의 원래 기능이고, 우리가 한 일은 그 캔버스에 HTML 을 그린 것뿐이다.
