@@ -97,7 +97,7 @@ README 에 코드를 인용할 때는 소스에서 그대로 복사한다. 들�
 
 설명을 위해 일부러 줄이거나 지어낸 조각은 그대로 두면 된다. 링크만 안 붙을 뿐 문제가 되지 않는다.
 
-소스를 고쳤으면 그 코드를 인용한 README 도 함께 고친다. `mise run check:snippets` 로 어긋난 것을 찾을 수 있다.
+소스를 고쳤으면 그 코드를 인용한 README 도 함께 고친다. `mise run check` 가 링크 수가 줄었는지 보고 막아 준다. 일부러 줄여 쓴 것이라면 `node scripts/check-snippets.mjs --update` 로 기준치를 갱신한다.
 
 ## README 뼈대
 

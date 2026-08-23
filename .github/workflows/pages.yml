@@ -5,10 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# 기본은 읽기만. 배포 권한은 실제로 배포하는 job 에만 준다.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # 배포는 한 번에 하나만. 진행 중인 것을 취소하지 않고 순서대로 흘려보낸다.
 concurrency:
@@ -19,10 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
+      # 액션은 커밋 SHA 로 고정한다. 태그는 옮길 수 있다.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - name: mise 설치
-        uses: jdx/mise-action@v3
+        uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
         with:
           experimental: true
 
@@ -34,16 +33,20 @@ jobs:
           ORIGIN_TRIAL_TOKEN: ${{ secrets.ORIGIN_TRIAL_TOKEN }}
         run: mise run site
 
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
           path: _site
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # 배포에 필요한 권한은 여기서만 열린다.
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
