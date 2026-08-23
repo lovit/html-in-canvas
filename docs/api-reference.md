@@ -75,7 +75,8 @@ partial interface WebGLRenderingContext {
 
 partial interface GPUQueue {
   undefined copyElementImageToTexture(GPUCopyElementImageSource source,
-                                 GPUCopyElementImageDestination destination);
+                                 GPUCopyElementImageDestination destination,
+                                 GPUExtent3D copySize);
 };
 ```
 
@@ -94,6 +95,48 @@ partial interface GPUQueue {
 - 넘치는 내용은 엘리먼트의 border box 로 잘린다
 - `paint` 이벤트는 자손이 조상보다 먼저 발생한다(역 트리 순서). 이벤트 안에서 만든 DOM 변경은 다음 프레임에 반영된다
 - 캔버스가 아예 렌더링되지 않는 위치에 있으면 `paint` 안에서 그려도 `InvalidStateError` 가 난다. 스냅샷 기록이 없기 때문이다. 뷰포트 밖으로 스크롤한 정도로는 생기지 않고, 숨긴 iframe 처럼 렌더링 자체가 일어나지 않을 때 생긴다. `galleries/_shared/support.js` 의 `guardPaint()` 가 이 경우를 넘긴다
+
+## 실제로 부딪힌 것들
+
+예제를 만들며 확인한 것들이다. 명세만 읽어서는 알기 어려웠던 자리다.
+
+### 반환 행렬을 쓰려면 `transform-origin: 0 0`
+
+`drawElementImage()` 가 돌려주는 행렬은 요소의 **왼쪽 위**를 기준으로 만들어진다. 그런데 CSS `transform` 은 기본적으로 요소 한가운데(`50% 50%`)를 축으로 걸린다. 이동만 하는 행렬은 축이 어디든 결과가 같아서 01~14 에서는 드러나지 않지만, 회전이나 확대가 들어가면 그림과 클릭 자리가 어긋난다(17 참고).
+
+```css
+#stage iframe {
+  transform-origin: 0 0;
+}
+```
+
+### 요소가 올라가는 크기는 진입점마다 다르다
+
+| 진입점                        | 나오는 크기   | 확인한 예                        |
+| ----------------------------- | ------------- | -------------------------------- |
+| `captureElementImage()`       | 디바이스 픽셀 | 360×440 프레임 → 720×880 (DPR 2) |
+| `copyElementImageToTexture()` | CSS 픽셀      | 380×240 카드 → 380×240           |
+
+둥근 모서리가 있으면 가장자리가 1px 씩 늘기도 한다(380×240 카드가 382×242 로 올라왔다). WebGPU 텍스처는 조금 넉넉하게 잡고 필요한 만큼만 읽는 편이 안전하다(20 참고).
+
+### WebGPU 쪽 인자 모양
+
+두 번째 인자가 `{ texture }` 가 아니라 `{ destination: { texture } }` 다.
+
+```js
+device.queue.copyElementImageToTexture({ source: card }, { destination: { texture } }, [
+  width,
+  height,
+]);
+```
+
+- 대상 텍스처의 `usage` 에 `RENDER_ATTACHMENT` 가 없으면 **아무 말 없이** 빈 텍스처가 된다
+- 캔버스에 `getContext('webgpu')` 를 먼저 불러 두지 않으면 `containing canvas does not have a rendering context` 로 막힌다
+- WebGPU 의 검증 오류는 예외로 오지 않는다. `device.addEventListener('uncapturederror', ...)` 를 달아 두는 편이 좋다
+
+### 스크롤이 생기는 iframe
+
+Chrome 151.0.7922.172 에서는 자식 문서가 프레임보다 길어 스크롤이 생기면 **스크롤바만 그려진다.** 자세한 것은 [알려진 문제](known-issues.md)에 있다.
 
 ## 그려지지 않는 것 (read-back-allowed rendering)
 
