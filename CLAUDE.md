@@ -32,7 +32,7 @@ HTML-in-Canvas API 를 예제로 익히는 학습용 저장소. `galleries/` 아
 - type: `feat` / `fix` / `refactor` / `docs` / `test` / `chore` / `style` / `perf`
 - 한 commit = 한 의도. 리팩터링과 기능 추가를 섞지 않는다
 - subject 는 한국어 50자 이내, 마침표 없음 (`scripts/check-commit-msg.mjs` 가 검사한다)
-- 자동 부착: `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>`
+- `Co-Authored-By` 트레일러를 붙이지 않는다. 사람이든 모델이든 co-author 로 기록하지 않는다
 - 자세한 예시: @.claude/rules/git-workflow.md
 
 ## 브랜치/PR 규칙
