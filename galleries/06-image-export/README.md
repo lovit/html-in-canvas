@@ -4,6 +4,8 @@ HTML 로 만든 카드를 1200×630 PNG 로 뽑는다. 소셜 미리보기용 OG
 
 ![왼쪽에는 그라디언트 배경과 큰 제목이 들어간 카드가 제대로 그려져 있고, 오른쪽 foreignObject 방식은 흰 바탕에 작은 기본 글꼴 텍스트만 남아 있다.](screenshot.png)
 
+> 이 문서의 측정값은 Chrome 151.0.7922.138 (macOS) 에서 2026-08-21 에 잰 것이다. 표준화 전 API 라 다음 버전에서 달라질 수 있다.
+
 ## 무엇을 배우나
 
 - `canvas.toBlob()` 으로 PNG 와 JPEG 내보내기
@@ -35,9 +37,9 @@ mise run chrome
 ```
 
 ```js
-/* 실제로 들고 있는 픽셀 수는 배율이 정한다 */
-stage.width = 1200 * scale;
-stage.height = 630 * scale;
+// 실제로 들고 있는 픽셀 수는 배율이 정한다
+stage.width = CARD_WIDTH * scale;
+stage.height = CARD_HEIGHT * scale;
 ```
 
 캔버스의 `width` / `height` 속성은 백킹 스토어, 즉 실제 픽셀 수다. CSS 의 `width` / `height` 는 화면에 차지하는 크기다. 이 둘을 따로 두면 화면 크기는 그대로 두고 결과물 해상도만 키울 수 있다.
@@ -65,6 +67,10 @@ stage.requestPaint();
 
 ```js
 stage.toBlob((blob) => {
+  if (!blob) {
+    status.textContent = '내보내기에 실패했습니다. 캔버스가 오염되지 않았는지 확인하세요.';
+    return;
+  }
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

@@ -1,5 +1,7 @@
 # 브라우저 셋업
 
+> 확인 시점: 2026-08-21 / Chrome 151.0.7922.138 (macOS). 표준화 전 API 라 지원 범위와 트라이얼 기간이 바뀔 수 있다.
+
 HTML-in-Canvas 는 아직 플래그 뒤에 있다. 플래그를 켜지 않으면 `ctx.drawElementImage` 가 `undefined` 라서 모든 예제가 안내 배너만 띄우고 멈춘다.
 
 ## 지원 현황
@@ -75,10 +77,12 @@ CI 나 스크립트에서 확인할 때 쓴다. WebGL 예제까지 확인하려�
 
 ```bash
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless --no-sandbox --use-angle=swiftshader \
+  --headless --use-angle=swiftshader \
   --enable-blink-features=CanvasDrawElement \
   --dump-dom "http://localhost:4173/galleries/01-hello-world/"
 ```
+
+도커의 root 처럼 샌드박스를 쓸 수 없는 환경에서만 `--no-sandbox` 를 덧붙인다. 평소 계정에서는 필요 없고, 같은 명령줄을 다른 주소에 재사용할 때 위험해진다.
 
 ## 잘 안 될 때
 
