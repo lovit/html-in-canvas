@@ -22,6 +22,14 @@ export function isWebGLSupported() {
   return supported;
 }
 
+/** WebGPU 쪽 진입점까지 필요한 예제용. 어댑터가 있는지는 비동기라 여기서 보지 않는다. */
+export function isWebGPUSupported() {
+  return (
+    'gpu' in navigator &&
+    typeof globalThis.GPUQueue?.prototype?.copyElementImageToTexture === 'function'
+  );
+}
+
 const BANNER_ID = 'hic-support-banner';
 
 /** 미지원 안내 배너를 문서 맨 앞에 띄운다. 이미 떠 있으면 아무것도 하지 않는다. */
@@ -87,9 +95,15 @@ export function showUnsupportedBanner(detail = '') {
  * 예제 시작점에서 부른다. 지원하면 true, 아니면 배너를 띄우고 false 를 준다.
  * 호출한 쪽은 false 를 받으면 조용히 끝내면 된다.
  */
-export function ensureSupport({ webgl = false } = {}) {
+export function ensureSupport({ webgl = false, webgpu = false } = {}) {
   if (!isSupported()) {
     showUnsupportedBanner();
+    return false;
+  }
+  if (webgpu && !isWebGPUSupported()) {
+    showUnsupportedBanner(
+      'HTML-in-Canvas 는 켜져 있지만 WebGPU 쪽 진입점(copyElementImageToTexture)이 없습니다. WebGPU 를 쓸 수 있는 빌드인지 확인해 보세요.',
+    );
     return false;
   }
   if (webgl && !isWebGLSupported()) {

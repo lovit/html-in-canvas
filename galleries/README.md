@@ -50,7 +50,7 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 17 | [`17-canvas-browser`](./17-canvas-browser/) | 캔버스 위의 미니 브라우저와 히트 테스트의 경계 |
 | 18 | [`18-document-workspace`](./18-document-workspace/) | 살아 있는 문서 여럿을 무한 캔버스에 |
 | 19 | [`19-paginate`](./19-paginate/) | 긴 문서를 인쇄용 페이지로 자르기 |
-| 20 | `20-webgpu-texture` (준비 중) | WebGPU 로 요소를 텍스처에 올리기 |
+| 20 | [`20-webgpu-texture`](./20-webgpu-texture/) | WebGPU 로 요소를 텍스처에 올리기 |
 
 번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.
 

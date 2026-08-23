@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>20. WebGPU 로 요소 텍스처 올리기 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>20. WebGPU 로 요소 텍스처 올리기</h1>
+      <p class="lede">
+        07 에서 <code>texElementImage2D()</code> 로 하던 일을 WebGPU 의
+        <code>copyElementImageToTexture()</code> 로 한다. 같은 그림, 다른 경로다. 라이브러리 없이
+        WGSL 셰이더와 파이프라인을 직접 만든다.
+      </p>
+
+      <!-- 그릴 대상은 여기서도 canvas 의 직계 자식이다. 컨텍스트만 webgpu 로 바뀐다. -->
+      <canvas id="stage" width="760" height="480">
+        <div class="card" id="card">
+          <p class="kicker">WEBGPU TEXTURE</p>
+          <h2 id="headline">이 카드가 GPU 텍스처다</h2>
+          <p class="body">
+            CSS 가 만든 그라디언트와 글자를 WebGPU 가 그대로 받아 간다. 아래 색 견본의 값이
+            텍스처에서 읽은 값과 같아야 한다.
+          </p>
+          <div class="swatch" id="swatch">#0f766e</div>
+        </div>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>셰이더</legend>
+          <label class="range"
+            >물결 <input type="range" id="wave" min="0" max="100" value="35" />
+            <output for="wave"></output
+          ></label>
+          <label class="range"
+            >주기 <input type="range" id="period" min="1" max="12" value="5" />
+            <output for="period"></output
+          ></label>
+          <label class="range"
+            >비네트 <input type="range" id="vignette" min="0" max="100" value="40" />
+            <output for="vignette"></output
+          ></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>소스</legend>
+          <label class="range"
+            >색상 <input type="range" id="hue" min="0" max="330" step="10" value="0" />
+            <output for="hue"></output
+          ></label>
+          <div class="buttons">
+            <button type="button" id="swap">문구 바꾸기</button>
+            <button type="button" id="sample">텍스처에서 색 읽기</button>
+          </div>
+          <p class="hint">소스를 바꾸면 <code>paint</code> 가 오고, 그 안에서 다시 올립니다.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>어댑터</dt>
+            <dd id="m-adapter">—</dd>
+            <dt>캔버스 포맷</dt>
+            <dd id="m-format">—</dd>
+            <dt>텍스처 크기</dt>
+            <dd id="m-texture">—</dd>
+            <dt>업로드 횟수</dt>
+            <dd id="m-uploads">0</dd>
+            <dt>견본 색 (CSS)</dt>
+            <dd id="m-css">—</dd>
+            <dt>견본 색 (텍스처)</dt>
+            <dd id="m-gpu">—</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        07 과 나란히 놓고 보면 좋습니다. 셰이더 언어도, 파이프라인을 만드는 방법도 다르지만 요소를
+        텍스처로 올리는 자리에서 하는 일은 같습니다. 둘 다 <code>paint</code> 안에서 불러야 한다는
+        점도 같습니다.
+      </p>
+
+      <p><a href="../">갤러리 목록으로 돌아가기 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
