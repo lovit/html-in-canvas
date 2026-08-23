@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>17. 캔버스 위의 미니 브라우저 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>17. 캔버스 위의 미니 브라우저</h1>
+      <p class="lede">
+        캔버스에 그려진 문서 안에서 링크가 눌린다. 회전과 확대를 걸어도 정확히 눌린다. 그런데 곡면에
+        감으면 눌리지 않는다. 그 경계가 어디인지 찾는다.
+      </p>
+
+      <div class="chrome">
+        <button type="button" id="back" title="뒤로">←</button>
+        <button type="button" id="forward" title="앞으로">→</button>
+        <button type="button" id="reload" title="새로고침">↻</button>
+        <input type="text" id="address" readonly aria-label="주소" />
+      </div>
+
+      <!-- 문서 높이만큼 프레임을 키워 두고, 보여 줄 창은 캔버스가 잘라 낸다. -->
+      <canvas id="stage" width="760" height="460">
+        <iframe
+          id="frame"
+          src="src/site-home.html"
+          title="캔버스가 그리는 문서"
+          width="360"
+          height="300"
+          scrolling="no"
+        ></iframe>
+      </canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>모드</legend>
+          <label class="radio"
+            ><input type="radio" name="mode" value="affine" checked /> 아핀 (히트 테스트
+            정확)</label
+          >
+          <label class="radio"
+            ><input type="radio" name="mode" value="curved" /> 곡면 (보기 전용)</label
+          >
+          <p class="hint" id="mode-note">회전·확대·기울이기까지는 클릭이 그림을 따라갑니다.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>변환</legend>
+          <label class="range"
+            >회전 <input type="range" id="rotate" min="-30" max="30" value="0" />
+            <output for="rotate"></output
+          ></label>
+          <label class="range"
+            >확대 <input type="range" id="zoom" min="60" max="130" value="100" />
+            <output for="zoom"></output
+          ></label>
+          <label class="range"
+            >기울이기 <input type="range" id="skew" min="-20" max="20" value="0" />
+            <output for="skew"></output
+          ></label>
+          <label class="range"
+            >스크롤 <input type="range" id="scroll" min="0" max="100" value="0" />
+            <output for="scroll"></output
+          ></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>문서 높이</dt>
+            <dd id="m-docheight">—</dd>
+            <dt>history 길이</dt>
+            <dd id="m-history">—</dd>
+            <dt>링크 히트 테스트</dt>
+            <dd id="m-hits">—</dd>
+            <dt>아핀 근사 오차</dt>
+            <dd id="m-error">—</dd>
+            <dt>paint 횟수</dt>
+            <dd id="m-paints">0</dd>
+          </dl>
+          <div class="buttons">
+            <button type="button" id="check">링크 위치 확인</button>
+          </div>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        스크롤은 문서가 아니라 캔버스가 합니다. 프레임을 문서 높이만큼 키워 두고 9인자 오버로드로
+        창을 잘라 그립니다. 그래야 문서에 스크롤이 생기지 않습니다.
+      </p>
+
+      <p><a href="../18-document-workspace/">다음 예제: 18. 여러 문서를 한 판에 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

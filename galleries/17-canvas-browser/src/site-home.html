@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>캔버스 위에서 도는 사이트</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        color: #16202e;
+        font:
+          14px/1.65 'Apple SD Gothic Neo',
+          system-ui,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 12px 18px;
+        background: #1d4ed8;
+        color: #fff;
+      }
+      header b {
+        font-size: 15px;
+      }
+      nav {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+        font-size: 13px;
+      }
+      nav a {
+        color: #fff;
+        opacity: 0.85;
+      }
+      main {
+        padding: 16px 18px 24px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+      a {
+        color: #1d4ed8;
+      }
+      .cta {
+        display: inline-block;
+        margin-top: 4px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        background: #1d4ed8;
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .box {
+        margin: 14px 0;
+        padding: 12px 14px;
+        border-left: 3px solid #1d4ed8;
+        background: #f4f6fb;
+        font-size: 13px;
+      }
+      ul {
+        margin: 0 0 14px;
+        padding-left: 18px;
+      }
+      footer {
+        padding: 12px 18px;
+        border-top: 1px solid #e3e8f0;
+        color: #64748b;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>MINI SITE</b>
+      <nav>
+        <a href="site-home.html">홈</a>
+        <a href="site-docs.html">문서</a>
+        <a href="site-about.html">소개</a>
+      </nav>
+    </header>
+    <main>
+      <h1>캔버스 위에서 도는 사이트</h1>
+      <p>
+        주소 표시줄도, 뒤로 가기도 캔버스 바깥의 HTML 이 만든 것입니다. 문서 자체는 iframe 안에
+        있고, 캔버스는 그것을 그립니다.
+      </p>
+      <p>
+        회전과 확대를 걸어도 링크가 정확히 눌립니다. <code>drawElementImage()</code> 가 돌려주는
+        행렬을 <code>transform</code> 에 되먹이기 때문입니다.
+      </p>
+      <ul>
+        <li>문서는 같은 출처라 <code>history</code> 를 바깥에서 다룰 수 있습니다</li>
+        <li>스크롤은 문서가 아니라 캔버스가 합니다</li>
+        <li>곡면 모드에서는 링크가 눌리지 않습니다</li>
+      </ul>
+      <div class="box">
+        이 페이지는 캔버스가 그린 그림이 아니라 iframe 안에서 도는 진짜 문서입니다. 위 메뉴의 링크를
+        캔버스 위에서 눌러 보세요.
+      </div>
+      <a class="cta" href="site-docs.html">문서 페이지로 →</a>
+    </main>
+    <footer>canvas-browser 예제용 문서 · MINI SITE</footer>
+  </body>
+</html>

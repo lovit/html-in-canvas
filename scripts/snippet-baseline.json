@@ -14,5 +14,6 @@
   "13-dom-stencil": 4,
   "14-motion-recorder": 7,
   "15-document-transition": 8,
-  "16-nesting-limits": 4
+  "16-nesting-limits": 4,
+  "17-canvas-browser": 10
 }
