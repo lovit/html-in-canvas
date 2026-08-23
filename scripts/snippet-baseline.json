@@ -13,5 +13,6 @@
   "12-canvas-rich-editor": 3,
   "13-dom-stencil": 4,
   "14-motion-recorder": 7,
-  "15-document-transition": 8
+  "15-document-transition": 8,
+  "16-nesting-limits": 4
 }

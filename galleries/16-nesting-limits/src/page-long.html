@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>프레임보다 긴 문서</title>
+    <style>
+      /* 일부러 overflow 를 풀어 둔다. 스크롤이 생기면 어떻게 되는지 보는 칸이다. */
+      body {
+        margin: 0;
+        padding: 10px 12px;
+        background: #fee2e2;
+        color: #7f1d1d;
+        font:
+          12px/1.5 'Apple SD Gothic Neo',
+          system-ui,
+          sans-serif;
+      }
+      p {
+        margin: 0 0 10px;
+      }
+      .filler {
+        height: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <p><b>프레임보다 긴 문서</b></p>
+    <p>내용이 프레임 높이를 넘겨서 스크롤이 생긴다.</p>
+    <div class="filler"></div>
+    <p>여기까지 오려면 스크롤해야 한다.</p>
+  </body>
+</html>
