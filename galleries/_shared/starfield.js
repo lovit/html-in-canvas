@@ -50,15 +50,22 @@ function random(seed) {
   };
 }
 
-/** 칸 하나의 별들. 같은 칸이면 언제나 같은 결과다. */
-export function starsInCell(depth, cellX, cellY) {
+/**
+ * 칸 하나의 별들. 같은 칸이면 언제나 같은 결과다.
+ *
+ * density 는 칸마다 별을 몇 배로 낼지다. 1 이 기본이고, 올리면 앞의 별들은 그대로 두고
+ * 뒤에 더 붙는다. 시드 하나에서 순서대로 뽑기 때문이다. 그래서 밀도를 올려도
+ * 원래 있던 별은 자리를 지킨다.
+ */
+export function starsInCell(depth, cellX, cellY, density = 1) {
   const seed = hash(depth, cellX, cellY);
   const next = random(seed);
   const size = 1 / 2 ** depth;
   const radius = RADIUS_AT(depth);
   const stars = [];
+  const count = Math.round(STARS_AT(depth) * density);
 
-  for (let index = 0; index < STARS_AT(depth); index += 1) {
+  for (let index = 0; index < count; index += 1) {
     const tone = TONES[Math.floor(next() * TONES.length)];
     stars.push({
       id: `${depth}:${cellX}:${cellY}:${index}`,
@@ -78,7 +85,7 @@ export function starsInCell(depth, cellX, cellY) {
  *
  * 칸 결과는 cache 에 담아 둔다. 카메라가 조금 움직였다고 같은 칸을 다시 만들 이유가 없다.
  */
-export function starsInView(bounds, maxDepth, cache) {
+export function starsInView(bounds, maxDepth, cache, density = 1) {
   const found = [];
 
   for (let depth = 0; depth <= maxDepth; depth += 1) {
@@ -90,10 +97,10 @@ export function starsInView(bounds, maxDepth, cache) {
 
     for (let cellY = fromY; cellY <= toY; cellY += 1) {
       for (let cellX = fromX; cellX <= toX; cellX += 1) {
-        const key = `${depth}:${cellX}:${cellY}`;
+        const key = `${depth}:${cellX}:${cellY}:${density}`;
         let cell = cache?.get(key);
         if (!cell) {
-          cell = starsInCell(depth, cellX, cellY);
+          cell = starsInCell(depth, cellX, cellY, density);
           cache?.set(key, cell);
         }
         for (const star of cell) {
