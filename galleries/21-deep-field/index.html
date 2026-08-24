@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>21. 딥필드 — HTML in Canvas</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main>
+      <a class="back" href="../">← 갤러리 목록</a>
+      <h1>21. 딥필드</h1>
+      <p class="lede">
+        멀리서 보면 점 몇백 개다. 한 자리를 확대하면 비어 있던 곳에서 새 별이 계속 나온다. 점은
+        캔버스가 찍고, 그 별이 무엇인지 말하는 카드는 HTML 이 맡는다.
+      </p>
+
+      <!-- 이름표와 카드는 풀에 담아 돌려 쓴다. 스크립트가 만들어 넣는다. -->
+      <canvas id="stage" width="900" height="560"></canvas>
+
+      <div class="controls">
+        <fieldset>
+          <legend>망원경</legend>
+          <label class="range"
+            >배율 <input type="range" id="zoom" min="0" max="120" value="0" />
+            <output for="zoom"></output
+          ></label>
+          <label class="range"
+            >깊이 창 <input type="range" id="window" min="1" max="5" value="4" />
+            <output for="window"></output
+          ></label>
+          <div class="buttons">
+            <button type="button" id="reset">전체 보기</button>
+            <button type="button" id="dive">아무 데나 파고들기</button>
+          </div>
+          <p class="hint">캔버스를 끌면 움직이고, 휠을 굴리면 확대·축소됩니다.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>HTML 이 맡는 것</legend>
+          <label class="switch"><input type="checkbox" id="show-chips" checked /> 이름표</label>
+          <label class="switch"><input type="checkbox" id="show-cards" checked /> 정보 카드</label>
+          <p class="hint" id="band-note">—</p>
+          <div class="buttons">
+            <button type="button" id="fingerprint">지금 하늘의 지문</button>
+          </div>
+          <p class="hint" id="fingerprint-out">—</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>측정값</legend>
+          <dl class="metrics">
+            <dt>배율</dt>
+            <dd id="m-zoom">—</dd>
+            <dt>깊이</dt>
+            <dd id="m-depth">—</dd>
+            <dt>그린 별</dt>
+            <dd id="m-stars">—</dd>
+            <dt>그중 가장 깊은 층</dt>
+            <dd id="m-new">—</dd>
+            <dt>HTML 요소</dt>
+            <dd id="m-pool">—</dd>
+            <dt>프레임</dt>
+            <dd id="m-frame">—</dd>
+          </dl>
+        </fieldset>
+      </div>
+
+      <p class="note">
+        별 목록을 미리 만들어 두지 않았습니다. 화면에 걸치는 칸마다 그 칸의 좌표로 시드를 만들어 그
+        자리에서 별을 냅니다. 그래서 같은 자리를 다시 확대하면 언제나 같은 별이 나오고, 아무리 깊이
+        들어가도 메모리가 늘지 않습니다.
+      </p>
+
+      <p><a href="../22-deep-field-gpu/">다음 예제: 22. 딥필드를 GPU 로 →</a></p>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

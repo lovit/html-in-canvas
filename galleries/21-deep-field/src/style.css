@@ -1,0 +1,161 @@
+#stage {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  aspect-ratio: 900 / 560;
+  border-radius: var(--radius);
+  background: #03060f;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* canvas 의 직계 자식. 화면에 직접 나오지 않고 캔버스가 그린 자리에서만 보인다.
+   확대는 없지만 17에서 확인한 대로 축을 왼쪽 위로 고정해 둔다. */
+#stage .label {
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--tone, #94a3b8) 55%, transparent);
+  border-radius: 8px;
+  background: rgb(2 6 15 / 82%);
+  color: #e2e8f0;
+  font:
+    12px/1.35 'Apple SD Gothic Neo',
+    system-ui,
+    sans-serif;
+  transform-origin: 0 0;
+}
+
+#stage .label .name {
+  display: block;
+  color: var(--tone, #e2e8f0);
+  font-size: 12px;
+}
+
+#stage .label .kind {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* 이름표: 이름과 분광형만 */
+#stage .chip {
+  width: 132px;
+  height: 40px;
+  padding: 5px 8px;
+}
+
+#stage .chip .detail,
+#stage .chip .logged {
+  display: none;
+}
+
+/* 정보 카드: 표와 체크박스까지 */
+#stage .card {
+  width: 176px;
+  height: 132px;
+  padding: 8px 10px;
+}
+
+#stage .card .name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#stage .card .detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1px 8px;
+  margin: 6px 0 0;
+  font-size: 11px;
+}
+
+#stage .card .detail dt {
+  color: #64748b;
+}
+
+#stage .card .detail dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#stage .card .logged {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 7px;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+legend {
+  padding: 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+label.range {
+  display: grid;
+  grid-template-columns: 3.4rem 1fr 3.2rem;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.45rem 0;
+  font-size: 0.85rem;
+}
+
+label.switch {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.4rem 0;
+  font-size: 0.88rem;
+}
+
+output {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.metrics dt {
+  color: var(--muted);
+}
+
+.metrics dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
