@@ -18,5 +18,6 @@
   "17-canvas-browser": 10,
   "18-document-workspace": 12,
   "19-paginate": 7,
-  "20-webgpu-texture": 5
+  "20-webgpu-texture": 5,
+  "21-deep-field": 9
 }

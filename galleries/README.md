@@ -52,6 +52,15 @@ API 이름과 제약은 [API 요약](../docs/api-reference.md)에 정리해 뒀�
 | 19 | [`19-paginate`](./19-paginate/) | 긴 문서를 인쇄용 페이지로 자르기 |
 | 20 | [`20-webgpu-texture`](./20-webgpu-texture/) | WebGPU 로 요소를 텍스처에 올리기 |
 
+## 규모편
+
+한 화면에 수천 개를 그리면서도 HTML 을 얹는다. 요소를 별마다 만들 수 없으므로 풀에 담아 돌려 쓴다.
+
+| # | 예제 | 배우는 것 |
+| --- | --- | --- |
+| 21 | [`21-deep-field`](./21-deep-field/) | 확대하면 새 별이 나오는 딥필드. HTML 요소 풀 돌려 쓰기 |
+| 22 | `22-deep-field-gpu` (준비 중) | 같은 하늘을 WebGL2 로. 두 경로를 나란히 비교 |
+
 번호 순서대로 읽는 것을 권한다. 뒤 예제는 앞에서 배운 것을 설명 없이 다시 쓴다. 예제 하나가 이슈 하나이므로 [이슈 목록](https://github.com/lovit/html-in-canvas/issues?q=is%3Aissue)에서 각 예제가 무엇을 목표로 했는지 볼 수 있다.
 
 ## 예제 공통 규칙
