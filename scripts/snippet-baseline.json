@@ -19,5 +19,6 @@
   "18-document-workspace": 12,
   "19-paginate": 7,
   "20-webgpu-texture": 5,
-  "21-deep-field": 9
+  "21-deep-field": 9,
+  "22-deep-field-gpu": 6
 }

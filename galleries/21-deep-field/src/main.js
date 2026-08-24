@@ -42,6 +42,7 @@ const stage = document.querySelector('#stage');
 const ctx = stage.getContext('2d');
 const zoomInput = document.querySelector('#zoom');
 const windowInput = document.querySelector('#window');
+const densityInput = document.querySelector('#density');
 const chipsToggle = document.querySelector('#show-chips');
 const cardsToggle = document.querySelector('#show-cards');
 const metrics = {
@@ -68,8 +69,14 @@ const assigned = new Map();
 let selected = null;
 let visible = [];
 let maxDepth = 0;
-let frameMs = 0;
+let drawMs = 0;
+let fps = 0;
+let frames = 0;
+let fpsSince = performance.now();
 let paintCount = 0;
+
+/** 카메라와 깊이가 그대로면 별을 다시 모으지 않는다. 같은 답이 나오는 계산이다. */
+let lastView = '';
 
 /** 마지막 paint 에서 실제로 찍은 별. 화면에 걸치기만 하고 너무 흐린 별은 빠진다. */
 let drawn = { total: 0, deepest: 0 };
@@ -118,24 +125,43 @@ function buildPool() {
  * 그 변경이 다시 paint 를 부르는 고리가 된다. 배정이 실제로 바뀐 자리만 고친다.
  */
 function tick() {
-  const started = performance.now();
-
   maxDepth = depthForZoom();
-  visible = starsInView(viewBounds(), maxDepth, cells);
-  if (cells.size > 6000) cells.clear();
+
+  const view = `${camera.x.toFixed(7)}:${camera.y.toFixed(7)}:${camera.zoom.toFixed(4)}:${maxDepth}:${density()}`;
+  if (view !== lastView) {
+    visible = starsInView(viewBounds(), maxDepth, cells, density());
+    if (cells.size > 6000) cells.clear();
+    lastView = view;
+  }
 
   assignPool();
+  countFrame();
   report();
 
-  frameMs = frameMs * 0.9 + (performance.now() - started) * 0.1;
   stage.requestPaint();
   requestAnimationFrame(tick);
+}
+
+/** 초당 프레임. 22번과 같은 방법으로 재야 두 경로를 견줄 수 있다. */
+function countFrame() {
+  frames += 1;
+  const now = performance.now();
+  if (now - fpsSince >= 500) {
+    fps = Math.round((frames / (now - fpsSince)) * 1000);
+    frames = 0;
+    fpsSince = now;
+  }
 }
 
 /** 배율이 오르면 깊이가 따라 는다. 깊이 창만큼 더 깊은 층까지 그린다. */
 function depthForZoom() {
   const base = Math.floor(Math.log2(camera.zoom));
   return Math.min(22, Math.max(0, base + Number(windowInput.value)));
+}
+
+/** 칸마다 별을 몇 배로 낼지. 그리는 경로를 비교하려고 둔 손잡이다. */
+function density() {
+  return [1, 4, 16][Number(densityInput.value)];
 }
 
 function viewBounds() {
@@ -267,10 +293,14 @@ function fill(slot, star, mode) {
 
 function onPaint() {
   paintCount += 1;
+  const started = performance.now();
+
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   drawSky();
   drawStars();
   drawLabels();
+
+  drawMs = drawMs * 0.9 + (performance.now() - started) * 0.1;
 }
 
 function drawSky() {
@@ -483,6 +513,7 @@ function wireControls() {
     setZoom(2 ** (Number(zoomInput.value) / 10));
   });
   windowInput.addEventListener('input', showOutputs);
+  densityInput.addEventListener('input', showOutputs);
 
   document.querySelector('#reset').addEventListener('click', () => {
     camera.x = 0.5;
@@ -532,7 +563,7 @@ function report() {
   metrics.stars.textContent = `${drawn.total.toLocaleString()}개`;
   metrics.fresh.textContent = `${drawn.deepest.toLocaleString()}개`;
   metrics.pool.textContent = `${shown} / ${POOL_SIZE} (카드 ${cards})`;
-  metrics.frame.textContent = `${frameMs.toFixed(1)}ms · paint ${paintCount}`;
+  metrics.frame.textContent = `${fps}fps · 그리기 ${drawMs.toFixed(1)}ms`;
 
   document.querySelector('#band-note').textContent =
     camera.zoom >= 48
@@ -544,4 +575,5 @@ function showOutputs() {
   document.querySelector('output[for="zoom"]').textContent =
     `${camera.zoom < 10 ? camera.zoom.toFixed(1) : Math.round(camera.zoom)}배`;
   document.querySelector('output[for="window"]').textContent = `${windowInput.value}층`;
+  document.querySelector('output[for="density"]').textContent = `×${density()}`;
 }
